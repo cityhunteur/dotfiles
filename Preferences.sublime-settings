@@ -1,0 +1,33 @@
+{
+	"close_windows_when_empty": true,
+	"color_scheme": "Packages/Nord/Nord.sublime-color-scheme",
+	"font_face": "PragmataPro Mono Liga",
+	"font_options":
+	[
+		"dlig"
+	],
+	"font_size": 14,
+	"highlight_line": true,
+	"ignored_packages":
+	[
+		"Markdown",
+		"Vintage"
+	],
+	"indent_guide_options":
+	[
+		"draw_normal",
+		"draw_active"
+	],
+	"line_padding_bottom": 2,
+	"line_padding_top": 1,
+	"monokai_pro_highlight_open_folders": true,
+	"monokai_pro_minimal": true,
+	"monokai_pro_sidebar_font_size": 13,
+	"monokai_pro_small_scrollbar": true,
+	"monokai_pro_style_title_bar": true,
+	"monokai_pro_ui_font_face": "PragmataPro Mono",
+	"open_files_in_new_window": false,
+	"scroll_speed": 3.0,
+	"theme": "Monokai Pro (Filter Octagon).sublime-theme",
+	"trim_trailing_white_space_on_save": true
+}
