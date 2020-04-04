@@ -75,11 +75,15 @@ plugins=(
 	fzf
 	autojump
 	tmuxinator
+	autoenv
+	vi-mode
 )
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+
+bindkey -v
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -107,6 +111,8 @@ alias ohmyzsh="subl ~/.oh-my-zsh"
 alias vim="nvim"
 alias vi="nvim"
 alias pip="pip3"
+alias ls="gls --color=always -G"  
+alias ll="gls --color=always -G -l"  
 
 autoload -U promptinit; promptinit
 prompt pure
@@ -119,8 +125,11 @@ export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 export GOPATH=/Volumes/Workspace
-export GOBIN=$GOPATH/bin
-export PATH=$PATH:${GOPATH//://bin:}/bin
+export GOBIN="$GOPATH"/bin
+export PATH="$PATH:${GOPATH//://bin:}/bin"
 export GO111MODULE=on
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
+
+export PATH="/usr/local/opt/python@3.8/bin:$PATH"
