@@ -1,6 +1,13 @@
 {
 	"close_windows_when_empty": true,
 	"color_scheme": "Packages/Nord/Nord.sublime-color-scheme",
+	"dictionary": "Packages/Language - English/en_GB.dic",
+	"find_selected_text": true,
+	"folder_exclude_patterns":
+	[
+		".git",
+		"build"
+	],
 	"font_face": "PragmataPro Mono Liga",
 	"font_options":
 	[
@@ -22,12 +29,16 @@
 	"line_padding_top": 1,
 	"monokai_pro_highlight_open_folders": true,
 	"monokai_pro_minimal": true,
+	"monokai_pro_panel_font_size": 13,
 	"monokai_pro_sidebar_font_size": 13,
 	"monokai_pro_small_scrollbar": true,
 	"monokai_pro_style_title_bar": true,
 	"monokai_pro_ui_font_face": "PragmataPro Mono",
 	"open_files_in_new_window": false,
 	"scroll_speed": 3.0,
+	"show_git_status": true,
 	"theme": "Monokai Pro (Filter Octagon).sublime-theme",
-	"trim_trailing_white_space_on_save": true
+	"trim_trailing_white_space_on_save": false,
+	"vintage_start_in_command_mode": true,
+	"word_wrap": "false"
 }
