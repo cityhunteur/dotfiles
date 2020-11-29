@@ -8,10 +8,7 @@ call plug#begin("~/.vim/plugged")
   Plug 'tomasr/molokai'
   Plug 'arcticicestudio/nord-vim', { 'branch': 'develop' }
   Plug 'luochen1990/rainbow'
-  Plug 'itchyny/lightline.vim'
   Plug 'edkolev/tmuxline.vim'
-  Plug 'scrooloose/nerdtree'
-  Plug 'scrooloose/nerdcommenter'
   Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'severin-lemaignan/vim-minimap'
   Plug 'ryanoasis/vim-devicons'
@@ -29,6 +26,8 @@ call plug#begin("~/.vim/plugged")
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'easymotion/vim-easymotion'
   Plug 'mhinz/vim-startify'
+  Plug 'vim-airline/vim-airline'
+  Plug 'preservim/nerdtree'
 call plug#end()
 
 " -------------------------------------------------------------------------------------------------
@@ -110,7 +109,8 @@ endfunction
 " -------------------------------------------------------------------------------------------------
 
 let $FZF_DEFAULT_OPTS = '--color fg:#D8DEE9,bg:#2E3440,hl:#A3BE8C,fg+:#D8DEE9,bg+:#434C5E,hl+:#A3BE8C,pointer:#BF616A,info:#4C566A,spinner:#4C566A,header:#4C566A,prompt:#81A1C1,marker:#EBCB8B'
-let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+let FZF_DEFAULT_COMMAND='fd --type f'
+let FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
 let g:fzf_tags_command = 'ctags -R'
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
@@ -278,3 +278,5 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
