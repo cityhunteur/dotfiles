@@ -1,3 +1,13 @@
+export GOPATH="$HOME/go"
+export GOBIN="$GOPATH/bin"
+export PATH="$PATH:$GOBIN"
+export PATH="/usr/local/opt/python@3.8/bin:$PATH"
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+autoload -Uz compinit; compinit
+autoload -Uz promptinit; promptinit
+prompt pure
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -8,7 +18,7 @@ export ZSH="/Users/pravin/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME=""
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -76,6 +86,7 @@ plugins=(
 	autojump
 	tmuxinator
 	autoenv
+	kubectl
 	vi-mode
 )
 
@@ -113,9 +124,9 @@ alias vi="nvim"
 alias pip="pip3"
 alias ls="gls --color=always -G"  
 alias ll="gls --color=always -G -l"  
-
-autoload -U promptinit; promptinit
-prompt pure
+alias k="kubectl"
+alias python=/usr/local/bin/python3
+alias pip=/usr/local/bin/pip3
 
 eval "$(direnv hook zsh)"
 
@@ -132,4 +143,15 @@ export GO111MODULE=on
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
 
-export PATH="/usr/local/opt/python@3.8/bin:$PATH"
+source /Users/pravin/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+complete -F __start_kubectl kexport PATH="/usr/local/opt/openjdk/bin:$PATH"
+
+[ -f ~/.kubectl_aliases ] && source \
+   <(cat ~/.kubectl_aliases | sed -r 's/(kubectl.*) --watch/watch \1/g')
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Volumes/Workspace/google-cloud-sdk/path.zsh.inc' ]; then . '/Volumes/Workspace/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Volumes/Workspace/google-cloud-sdk/completion.zsh.inc' ]; then . '/Volumes/Workspace/google-cloud-sdk/completion.zsh.inc'; fi
