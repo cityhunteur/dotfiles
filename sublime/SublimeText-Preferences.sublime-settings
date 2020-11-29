@@ -8,7 +8,7 @@
 		".git",
 		"build"
 	],
-	"font_face": "PragmataPro Mono Liga",
+	"font_face": "PragmataPro Mono",
 	"font_options":
 	[
 		"dlig"
@@ -18,6 +18,7 @@
 	"ignored_packages":
 	[
 		"Markdown",
+		"Rust",
 		"Vintage"
 	],
 	"indent_guide_options":
