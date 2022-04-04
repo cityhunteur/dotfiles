@@ -1,8 +1,9 @@
-export GOPATH="$HOME/go"
+export GOPATH="/Volumes/Workspace"
 export GOBIN="$GOPATH/bin"
 export PATH="$PATH:$GOBIN"
 export PATH="/usr/local/opt/python@3.8/bin:$PATH"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+export GIT_TERMINAL_PROMPT=1
 
 autoload -Uz compinit; compinit
 autoload -Uz promptinit; promptinit
@@ -125,8 +126,11 @@ alias pip="pip3"
 alias ls="gls --color=always -G"  
 alias ll="gls --color=always -G -l"  
 alias k="kubectl"
+alias kc="kubectx"
+alias kn="kubens"
 alias python=/usr/local/bin/python3
 alias pip=/usr/local/bin/pip3
+alias snowsql=/Applications/SnowSQL.app/Contents/MacOS/snowsql
 
 eval "$(direnv hook zsh)"
 
@@ -155,3 +159,15 @@ if [ -f '/Volumes/Workspace/google-cloud-sdk/path.zsh.inc' ]; then . '/Volumes/W
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Volumes/Workspace/google-cloud-sdk/completion.zsh.inc' ]; then . '/Volumes/Workspace/google-cloud-sdk/completion.zsh.inc'; fi
+export  PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH="/usr/local/opt/yq@3/bin:$PATH"
+export HOMEBREW_GITHUB_API_TOKEN=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
+
+# added by Snowflake SnowSQL installer v1.2
+export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
+
+# Created by `pipx` on 2021-09-15 14:02:22
+export PATH="$PATH:/Users/pravin/.local/bin"
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/terraform terraform
