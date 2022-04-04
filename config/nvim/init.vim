@@ -26,8 +26,9 @@ call plug#begin("~/.vim/plugged")
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'easymotion/vim-easymotion'
   Plug 'mhinz/vim-startify'
-  Plug 'vim-airline/vim-airline'
   Plug 'preservim/nerdtree'
+  Plug 'preservim/tagbar'
+  Plug 'itchyny/lightline.vim'
 call plug#end()
 
 " -------------------------------------------------------------------------------------------------
