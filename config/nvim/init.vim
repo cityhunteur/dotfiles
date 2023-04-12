@@ -3,32 +3,36 @@
 " -------------------------------------------------------------------------------------------------
 
 call plug#begin("~/.vim/plugged")
-  Plug 'rainglow/vim'
-  Plug 'lifepillar/vim-solarized8'
-  Plug 'tomasr/molokai'
-  Plug 'arcticicestudio/nord-vim', { 'branch': 'develop' }
-  Plug 'luochen1990/rainbow'
-  Plug 'edkolev/tmuxline.vim'
+  Plug 'Exafunction/codeium.vim'
   Plug 'Xuyuanp/nerdtree-git-plugin'
-  Plug 'severin-lemaignan/vim-minimap'
-  Plug 'ryanoasis/vim-devicons'
+  Plug 'Yggdroot/indentLine'
+  Plug 'airblade/vim-gitgutter'
+  Plug 'arcticicestudio/nord-vim', { 'branch': 'develop' }
+  Plug 'easymotion/vim-easymotion'
+  Plug 'edkolev/tmuxline.vim'
+  Plug 'fatih/vim-go'
+  Plug 'itchyny/lightline.vim'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim' 
   Plug 'junegunn/goyo.vim'
   Plug 'junegunn/limelight.vim'
-  Plug 'airblade/vim-gitgutter'
-  Plug 'tpope/vim-fugitive'
-  Plug 'tpope/vim-surround'
+  Plug 'lifepillar/vim-solarized8'
+  Plug 'luochen1990/rainbow'
   Plug 'majutsushi/tagbar'
-  Plug 'Yggdroot/indentLine'
-  Plug 'sheerun/vim-polyglot'
-  Plug 'fatih/vim-go'
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  Plug 'easymotion/vim-easymotion'
   Plug 'mhinz/vim-startify'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'preservim/nerdtree'
   Plug 'preservim/tagbar'
-  Plug 'itchyny/lightline.vim'
+  Plug 'rainglow/vim'
+  Plug 'rust-lang/rust.vim'
+  Plug 'ryanoasis/vim-devicons'
+  Plug 'severin-lemaignan/vim-minimap'
+  Plug 'sheerun/vim-polyglot'
+  Plug 'tomasr/molokai'
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-surround'
+  Plug 'dense-analysis/ale'
+  Plug 'voldikss/vim-floaterm'
 call plug#end()
 
 " -------------------------------------------------------------------------------------------------
@@ -45,6 +49,8 @@ set showtabline=2
 set cmdheight=1
 set cmdwinheight=5
 set cursorline
+syntax enable
+filetype plugin indent on
 
 " -------------------------------------------------------------------------------------------------
 " Key Bindings
@@ -67,6 +73,10 @@ nnoremap <A-h> <C-w>h
 nnoremap <A-j> <C-w>j
 nnoremap <A-k> <C-w>k
 nnoremap <A-l> <C-w>l
+
+noremap  <leader>t  :FloatermToggle<CR>i
+noremap! <leader>t  <Esc>:FloatermToggle<CR>i
+tnoremap <leader>t  <C-\><C-n>:FloatermToggle<CR>
 
 " -------------------------------------------------------------------------------------------------
 " lightline
@@ -281,3 +291,40 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
+
+
+" ---
+"  rust
+" ---
+let g:rustfmt_autosave = 1
+let g:rustfmt_emit_files = 1
+let g:rustfmt_fail_silently = 0
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" ---
+" terminal
+" ---
+let g:floaterm_width = 100
+let g:floaterm_winblend = 0
+
