@@ -5,10 +5,6 @@ export PATH="/usr/local/opt/python@3.8/bin:$PATH"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export GIT_TERMINAL_PROMPT=1
 
-autoload -Uz compinit; compinit
-autoload -Uz promptinit; promptinit
-prompt pure
-
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -93,6 +89,12 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+# Pure Prompt
+autoload -Uz compinit; compinit
+autoload -Uz promptinit; promptinit
+PURE_CMD_MAX_EXEC_TIME=3600
+prompt pure
+
 # User configuration
 
 bindkey -v
@@ -124,13 +126,14 @@ alias vim="nvim"
 alias vi="nvim"
 alias pip="pip3"
 alias ls="gls --color=always -G"  
-alias ll="gls --color=always -G -l"  
+alias ll="gls --color=always -gGh --group-directories-first"  
 alias k="kubectl"
 alias kc="kubectx"
 alias kn="kubens"
 alias python=/usr/local/bin/python3
 alias pip=/usr/local/bin/pip3
 alias snowsql=/Applications/SnowSQL.app/Contents/MacOS/snowsql
+alias tf='terraform'
 
 eval "$(direnv hook zsh)"
 
@@ -142,7 +145,6 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export GOPATH=/Volumes/Workspace
 export GOBIN="$GOPATH"/bin
 export PATH="$PATH:${GOPATH//://bin:}/bin"
-export GO111MODULE=on
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
