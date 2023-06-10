@@ -7,13 +7,13 @@ call plug#begin("~/.vim/plugged")
   Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'Yggdroot/indentLine'
   Plug 'airblade/vim-gitgutter'
-  Plug 'arcticicestudio/nord-vim', { 'branch': 'develop' }
+  Plug 'arcticicestudio/nord-vim', { 'branch': 'main' }
   Plug 'easymotion/vim-easymotion'
   Plug 'edkolev/tmuxline.vim'
   Plug 'fatih/vim-go'
   Plug 'itchyny/lightline.vim'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-  Plug 'junegunn/fzf.vim' 
+  Plug 'junegunn/fzf.vim'
   Plug 'junegunn/goyo.vim'
   Plug 'junegunn/limelight.vim'
   Plug 'lifepillar/vim-solarized8'
@@ -79,6 +79,22 @@ noremap! <leader>t  <Esc>:FloatermToggle<CR>i
 tnoremap <leader>t  <C-\><C-n>:FloatermToggle<CR>
 
 " -------------------------------------------------------------------------------------------------
+" tmuxline
+" -------------------------------------------------------------------------------------------------
+let g:tmuxline_powerline_separators = 0
+let g:tmuxline_separators = {
+    \ 'left' : '',
+    \ 'left_alt': '',
+    \ 'right' : '',
+    \ 'right_alt' : '',
+    \ 'space' : ' '}
+let g:tmuxline_preset = {
+      \'a'    : '#I #W',
+      \'x'    : '%Y-%m-%d',
+      \'y'    : '%H:%M',
+      \'z'    : '#H'}
+
+" -------------------------------------------------------------------------------------------------
 " lightline
 " -------------------------------------------------------------------------------------------------
 
@@ -86,9 +102,9 @@ let g:lightline = {
       \ 'colorscheme': 'nord',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly' ] ],        
+      \             [ 'readonly' ] ],
       \   'right': [ [ 'lineinfo', 'gitbranch', 'filetype' ] ]
-      \ },      
+      \ },
       \ 'component_function': {
       \   'gitbranch': 'FugitiveHead',
       \   'filename': 'LightlineFilename',
@@ -130,12 +146,12 @@ let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 function! FloatingFZF()
   let buf = nvim_create_buf(v:false, v:true)
   call setbufvar(buf, '&signcolumn', 'no')
- 
+
   let height = float2nr(25)
   let width = float2nr(80)
   let horizontal = float2nr((&columns - width) / 2)
   let vertical = 3
- 
+
   let opts = {
         \ 'relative': 'editor',
         \ 'row': vertical,
@@ -144,7 +160,7 @@ function! FloatingFZF()
         \ 'height': height,
         \ 'style': 'minimal'
         \ }
- 
+
   call nvim_open_win(buf, v:true, opts)
 endfunction
 
@@ -191,7 +207,7 @@ autocmd! User GoyoLeave Limelight!
 
 " -------------------------------------------------------------------------------------------------
 " NERDTree
-" ------------------------------------------------------------------------------------------------- 
+" -------------------------------------------------------------------------------------------------
 
 let NERDTreeQuitOnOpen = 1
 let g:NERDTreeShowHidden = 1
@@ -205,7 +221,7 @@ nmap <leader>nf :NERDTreeFind<CR>
 
 " -------------------------------------------------------------------------------------------------
 " Terminal
-" ------------------------------------------------------------------------------------------------- 
+" -------------------------------------------------------------------------------------------------
 
 if exists('$SHELL')
   set shell=$SHELL
@@ -292,10 +308,10 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
 
-
-" ---
+" -----
 "  rust
-" ---
+" -----
+
 let g:rustfmt_autosave = 1
 let g:rustfmt_emit_files = 1
 let g:rustfmt_fail_silently = 0
@@ -322,9 +338,9 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-" ---
+" --------
 " terminal
-" ---
+" --------
+
 let g:floaterm_width = 100
 let g:floaterm_winblend = 0
-
