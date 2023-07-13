@@ -43,11 +43,11 @@
 	"word_wrap": "false",
 	"side_bar_visible": true,
 	"side_bar_width": 260.0,
-	"theme": "Monokai Pro (Filter Octagon).sublime-theme",
+	"theme": "GitHub Dimmed.sublime-theme",
 	"monokai_pro_minimal": true,
-	"monokai_pro_label_font_size": 13,
-	"monokai_pro_sidebar_font_size": 13,
+	"monokai_pro_label_font_size": 14,
+	"monokai_pro_sidebar_font_size": 14,
 	"monokai_pro_small_scrollbar": true,
 	"monokai_pro_ui_font_face": "PragmataPro Mono Liga",
-	"monokai_pro_style_title_bar": true
+	"monokai_pro_style_title_bar": true,
 }

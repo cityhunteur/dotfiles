@@ -1,11 +1,9 @@
-export GOPATH="/Volumes/Workspace"
-export GOBIN="$GOPATH/bin"
-export PATH="$PATH:$GOBIN"
-export PATH="/usr/local/opt/python@3.8/bin:$PATH"
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-export GIT_TERMINAL_PROMPT=1
+# Homebrew
+# Read-only access to public repos.
+export HOMEBREW_GITHUB_API_TOKEN=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
 
 # If you come from bash you might have to change your $PATH.
+export PATH="$HOME/.jenv/bin:$PATH"
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
@@ -125,15 +123,23 @@ alias ohmyzsh="subl ~/.oh-my-zsh"
 alias vim="nvim"
 alias vi="nvim"
 alias pip="pip3"
-alias ls="gls --color=always -G"  
-alias ll="gls --color=always -gGh --group-directories-first"  
+alias ls="gls --color=always -G"
+alias ll="gls --color=always -gGh --group-directories-first"
 alias k="kubectl"
 alias kc="kubectx"
 alias kn="kubens"
-alias python=/usr/local/bin/python3
-alias pip=/usr/local/bin/pip3
-alias snowsql=/Applications/SnowSQL.app/Contents/MacOS/snowsql
 alias tf='terraform'
+
+# Golang
+export GOPATH=/Volumes/Workspace
+export GOBIN="$GOPATH"/bin
+export PATH="$PATH:${GOPATH//://bin:}/bin"
+
+# Java
+eval "$(jenv init -)"
+
+# Shell
+export GIT_TERMINAL_PROMPT=1
 
 eval "$(direnv hook zsh)"
 
@@ -141,10 +147,6 @@ export EDITOR='nvim'
 
 export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-
-export GOPATH=/Volumes/Workspace
-export GOBIN="$GOPATH"/bin
-export PATH="$PATH:${GOPATH//://bin:}/bin"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
@@ -155,21 +157,39 @@ complete -F __start_kubectl kexport PATH="/usr/local/opt/openjdk/bin:$PATH"
 
 [ -f ~/.kubectl_aliases ] && source \
    <(cat ~/.kubectl_aliases | sed -r 's/(kubectl.*) --watch/watch \1/g')
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Volumes/Workspace/google-cloud-sdk/path.zsh.inc' ]; then . '/Volumes/Workspace/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Volumes/Workspace/google-cloud-sdk/completion.zsh.inc' ]; then . '/Volumes/Workspace/google-cloud-sdk/completion.zsh.inc'; fi
-export  PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/yq@3/bin:$PATH"
-export HOMEBREW_GITHUB_API_TOKEN=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
-
-# added by Snowflake SnowSQL installer v1.2
-export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
 
 # Created by `pipx` on 2021-09-15 14:02:22
 export PATH="$PATH:/Users/pravin/.local/bin"
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Volumes/Workspace/tools/google-cloud-sdk/path.zsh.inc' ]; then . '/Volumes/Workspace/tools/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Volumes/Workspace/tools/google-cloud-sdk/completion.zsh.inc' ]; then . '/Volumes/Workspace/tools/google-cloud-sdk/completion.zsh.inc'; fi
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+source /Users/pravin/.config/op/plugins.sh
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/pravin/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/pravin/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/pravin/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/pravin/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
