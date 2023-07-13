@@ -1,6 +1,6 @@
 # Homebrew
 # Read-only access to public repos.
-export HOMEBREW_GITHUB_API_TOKEN=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
+export HOMEBREW_GITHUB_API_TOKEN=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
 
 # If you come from bash you might have to change your $PATH.
 export PATH="$HOME/.jenv/bin:$PATH"
