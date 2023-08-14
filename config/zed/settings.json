@@ -7,10 +7,11 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
-  "features": {
-    "copilot": false
-  },
+  // "vim_mode": true,
+  "base_keymap": "SublimeText",
   "theme": "One Dark",
+  "tab_size": 2,
+  "preferred_line_length": 100,
   "buffer_font_family": "PragmataPro Mono Liga",
   "buffer_font_features": {
     "liga": false
@@ -24,5 +25,14 @@
       "liga": false
     },
     "font_size": 14,
+  },
+  "lsp": {
+    "rust-analyzer": {
+      "initialization_options": {
+        "checkOnSave": {
+          "command": "clippy" // rust-analyzer.checkOnSave.command
+        }
+      }
+    }
   }
 }
