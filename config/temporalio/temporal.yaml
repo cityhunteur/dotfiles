@@ -1,0 +1,5 @@
+env:
+    default: {}
+    local:
+        address: localhost:3016
+        namespace: default

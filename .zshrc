@@ -1,3 +1,5 @@
+# Fig pre block. Keep at the top of this file.
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 # Homebrew
 # Read-only access to public repos.
 export HOMEBREW_GITHUB_API_TOKEN=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
@@ -5,6 +7,7 @@ export HOMEBREW_GITHUB_API_TOKEN=github_pat_11ABNXPEY02vuIJm4fkV61_EJyhPgfyH4ku4
 # If you come from bash you might have to change your $PATH.
 export PATH="$HOME/.jenv/bin:$PATH"
 export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/pravin/.oh-my-zsh"
@@ -65,7 +68,7 @@ export UPDATE_ZSH_DAYS=7
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-# Would you like to use another custom folder than $ZSH/custom?
+# Would you like to use another custom fol:wder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Which plugins would you like to load?
@@ -83,6 +86,8 @@ plugins=(
 	autoenv
 	kubectl
 	vi-mode
+	kubectl
+  	poetry
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -129,6 +134,14 @@ alias k="kubectl"
 alias kc="kubectx"
 alias kn="kubens"
 alias tf='terraform'
+alias rgf='rg --files | rg'
+
+alias t='temporal'
+alias tw='temporal workflow'
+alias ts='temporal server start-dev'
+alias tsdb='temporal server start-dev --db-filename ~/temporal.db'
+alias tsbg='temporal server start-dev &> /dev/null & disown'
+alias date=gdate
 
 # Golang
 export GOPATH=/Volumes/Workspace
@@ -174,7 +187,6 @@ if [ -f '/Volumes/Workspace/tools/google-cloud-sdk/completion.zsh.inc' ]; then .
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-source /Users/pravin/.config/op/plugins.sh
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -193,3 +205,6 @@ unset __conda_setup
 
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
+
+# Fig post block. Keep at the bottom of this file.
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"

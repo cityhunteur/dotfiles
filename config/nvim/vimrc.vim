@@ -1,14 +1,18 @@
+set rtp +=~/.config/nvim
+
 " -------------------------------------------------------------------------------------------------
 " Plugins
 " -------------------------------------------------------------------------------------------------
 
 call plug#begin("~/.vim/plugged")
+  Plug 'Exafunction/codeium.vim'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'Yggdroot/indentLine'
   Plug 'airblade/vim-gitgutter'
   Plug 'arcticicestudio/nord-vim', { 'branch': 'main' }
   Plug 'dense-analysis/ale'
   Plug 'easymotion/vim-easymotion'
   Plug 'edkolev/tmuxline.vim'
-  Plug 'Exafunction/codeium.vim'
   Plug 'fatih/vim-go'
   Plug 'itchyny/lightline.vim'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -18,10 +22,12 @@ call plug#begin("~/.vim/plugged")
   Plug 'lifepillar/vim-solarized8'
   Plug 'luochen1990/rainbow'
   Plug 'majutsushi/tagbar'
+  Plug 'mfussenegger/nvim-jdtls'
   Plug 'mhinz/vim-startify'
   Plug 'neovim/nvim-lspconfig'
   Plug 'preservim/nerdtree'
   Plug 'preservim/tagbar'
+  Plug 'projekt0n/github-nvim-theme'
   Plug 'rainglow/vim'
   Plug 'rust-lang/rust.vim'
   Plug 'ryanoasis/vim-devicons'
@@ -31,9 +37,6 @@ call plug#begin("~/.vim/plugged")
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-surround'
   Plug 'voldikss/vim-floaterm'
-  Plug 'Xuyuanp/nerdtree-git-plugin'
-  Plug 'Yggdroot/indentLine'
-  Plug 'mfussenegger/nvim-jdtls'
 call plug#end()
 
 " -------------------------------------------------------------------------------------------------
