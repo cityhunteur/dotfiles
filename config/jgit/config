@@ -4,3 +4,6 @@
 [filesystem "JetBrains s.r.o.|17.0.7|/dev/disk3s5"]
 	timestampResolution = 6000 nanoseconds
 	minRacyThreshold = 0 nanoseconds
+[filesystem "JetBrains s.r.o.|17.0.8|/dev/disk3s5"]
+	timestampResolution = 3000 nanoseconds
+	minRacyThreshold = 0 nanoseconds

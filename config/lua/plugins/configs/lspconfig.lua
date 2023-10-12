@@ -1,5 +1,5 @@
 dofile(vim.g.base46_cache .. "lsp")
-require "nvchad.lsp"
+require "nvchad_ui.lsp"
 
 local M = {}
 local utils = require "core.utils"
@@ -13,7 +13,7 @@ M.on_attach = function(client, bufnr)
   utils.load_mappings("lspconfig", { buffer = bufnr })
 
   if client.server_capabilities.signatureHelpProvider then
-    require("nvchad.signature").setup(client)
+    require("nvchad_ui.signature").setup(client)
   end
 
   if not utils.load_config().ui.lsp_semantic_tokens and client.supports_method "textDocument/semanticTokens" then
@@ -54,7 +54,7 @@ require("lspconfig").lua_ls.setup {
         library = {
           [vim.fn.expand "$VIMRUNTIME/lua"] = true,
           [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
-          [vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types"] = true,
+          [vim.fn.stdpath "data" .. "/lazy/extensions/nvchad_types"] = true,
           [vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
         },
         maxPreload = 100000,
@@ -63,5 +63,19 @@ require("lspconfig").lua_ls.setup {
     },
   },
 }
+
+require("lspconfig").gopls.setup {}
+require("lspconfig").kotlin_language_server.setup {}
+require("lspconfig").pyright.setup {}
+require("lspconfig").rome.setup {}
+require("lspconfig").ruff_lsp.setup {}
+require("lspconfig").rust_analyzer.setup {
+  settings = {
+    ['rust-analyzer'] = {},
+  },
+}
+require("lspconfig").tailwindcss.setup {}
+require("lspconfig").terraform_ls.setup {}
+require("lspconfig").tsserver.setup {}
 
 return M

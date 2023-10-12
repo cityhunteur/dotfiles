@@ -1,5 +1,6 @@
 # Fig pre block. Keep at the top of this file.
 [[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
+
 # Homebrew
 # Read-only access to public repos.
 export HOMEBREW_GITHUB_API_TOKEN=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
@@ -10,7 +11,7 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/pravin/.oh-my-zsh"
+export ZSH="/Users/pravingoomannee/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -77,16 +78,16 @@ export UPDATE_ZSH_DAYS=7
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+	autoenv
+	autojump
+	fzf
 	git
+	kubectl
+	kubectl
+	tmuxinator
+	vi-mode
 	zsh-autosuggestions
 	zsh-syntax-highlighting
-	fzf
-	autojump
-	tmuxinator
-	autoenv
-	kubectl
-	vi-mode
-	kubectl
   	poetry
 )
 
@@ -123,25 +124,27 @@ bindkey -v
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-alias zshconfig="subl ~/.zshrc"
-alias ohmyzsh="subl ~/.oh-my-zsh"
-alias vim="nvim"
-alias vi="nvim"
-alias pip="pip3"
-alias ls="gls --color=always -G"
-alias ll="gls --color=always -gGh --group-directories-first"
+alias date=gdate
 alias k="kubectl"
 alias kc="kubectx"
 alias kn="kubens"
-alias tf='terraform'
+alias ll="gls --color=always -gGh --group-directories-first"
+alias ls="gls --color=always -G"
+alias ohmyzsh="subl ~/.oh-my-zsh"
+alias pip="pip3"
 alias rgf='rg --files | rg'
-
 alias t='temporal'
-alias tw='temporal workflow'
+alias tf='terraform'
 alias ts='temporal server start-dev'
-alias tsdb='temporal server start-dev --db-filename ~/temporal.db'
 alias tsbg='temporal server start-dev &> /dev/null & disown'
-alias date=gdate
+alias tsdb='temporal server start-dev --db-filename ~/temporal.db'
+alias tw='temporal workflow'
+alias vi="nvim"
+alias vim="nvim"
+alias zshconfig="subl ~/.zshrc"
+function lk {
+  cd "$(walk "$@")"
+}
 
 # Golang
 export GOPATH=/Volumes/Workspace
@@ -164,7 +167,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
 
-source /Users/pravin/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /Users/pravingoomannee/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 complete -F __start_kubectl kexport PATH="/usr/local/opt/openjdk/bin:$PATH"
 
@@ -174,7 +177,7 @@ export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/yq@3/bin:$PATH"
 
 # Created by `pipx` on 2021-09-15 14:02:22
-export PATH="$PATH:/Users/pravin/.local/bin"
+export PATH="$PATH:/Users/pravingoomannee/.local/bin"
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
@@ -190,14 +193,14 @@ eval "$(pyenv init -)"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/pravin/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/Users/pravingoomannee/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/Users/pravin/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/pravin/miniconda3/etc/profile.d/conda.sh"
+    if [ -f "/Users/pravingoomannee/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/pravingoomannee/miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/Users/pravin/miniconda3/bin:$PATH"
+        export PATH="/Users/pravingoomannee/miniconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -206,5 +209,15 @@ unset __conda_setup
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
+# 1Password CLI
+# using aws-vault to manage 1password credentials
+# source /Users/pravingoomannee/.config/op/plugins.sh
+source <(temporal completion zsh)
+
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+
+# PHP
+export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
+export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"
+export PATH="/opt/homebrew/opt/mysql@8.0/bin:$PATH"

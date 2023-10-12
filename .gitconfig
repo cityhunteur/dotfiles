@@ -3,18 +3,17 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[url "git@bitbucket.org:"]
-	insteadOf = https://bitbucket.org/
 [url "git@github.com:"]
-	insteadOf = https://github.com/
+    insteadOf = https://github.com/
 [core]
-	excludesFile = ~/.gitignore
+	excludesfile = /Users/pravingoomannee/.gitignore
 	pager = diff-so-fancy | less --tabs=4 -RFX
 [pull]
 	rebase = true
 [user]
 	name = Pravin Goomannee
 	email = 5994387+Cityhunteur@users.noreply.github.com
+	signingkey = 93855C85
 [init]
 	defaultBranch = main
 [interactive]
@@ -34,3 +33,12 @@
 	old = red bold
 	new = green bold
 	whitespace = red reverse
+[commit]
+	gpgsign = true
+[safe]
+	directory = /src
+	directory = /src
+[gpg]
+	program = /usr/local/MacGPG2/bin/gpg2
+[alias]
+	lgb = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date=relative --branches
