@@ -11,7 +11,7 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/pravingoomannee/.oh-my-zsh"
+export ZSH="/Users/pravin/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -167,7 +167,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
 
-source /Users/pravingoomannee/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /Users/pravin/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 complete -F __start_kubectl kexport PATH="/usr/local/opt/openjdk/bin:$PATH"
 
@@ -177,7 +177,7 @@ export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/yq@3/bin:$PATH"
 
 # Created by `pipx` on 2021-09-15 14:02:22
-export PATH="$PATH:/Users/pravingoomannee/.local/bin"
+export PATH="$PATH:/Users/pravin/.local/bin"
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
@@ -193,14 +193,14 @@ eval "$(pyenv init -)"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/pravingoomannee/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/Users/pravin/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/Users/pravingoomannee/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/pravingoomannee/miniconda3/etc/profile.d/conda.sh"
+    if [ -f "/Users/pravin/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/pravin/miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/Users/pravingoomannee/miniconda3/bin:$PATH"
+        export PATH="/Users/pravin/miniconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -211,7 +211,7 @@ export PATH="$VOLTA_HOME/bin:$PATH"
 
 # 1Password CLI
 # using aws-vault to manage 1password credentials
-# source /Users/pravingoomannee/.config/op/plugins.sh
+# source /Users/pravin/.config/op/plugins.sh
 source <(temporal completion zsh)
 
 # Fig post block. Keep at the bottom of this file.
