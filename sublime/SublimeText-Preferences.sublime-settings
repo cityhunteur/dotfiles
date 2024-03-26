@@ -11,24 +11,30 @@
 	"font_face": "PragmataPro Mono Liga",
 	"font_options":
 	[
+		"clig",
+		"liga",
+		"calt",
 		"dlig",
-		"subpixel_antialias"
+		"subpixel_antialias",
+		// "gray_antialias",
+		"ss01",
+		"ss02"
 	],
-	"font_size": 14,
+	"font_size": 15,
 	"highlight_line": true,
 	"hot_exit": false,
 	"ignored_packages":
 	[
 		"Rust",
-		"Vintage"
+		"Vintage",
 	],
 	"indent_guide_options":
 	[
 		"draw_normal",
 		"draw_active"
 	],
-	"line_padding_bottom": 4,
-	"line_padding_top": 4,
+	"line_padding_bottom": 3,
+	"line_padding_top": 3,
 	"open_files_in_new_window": false,
 	"remember_open_files": false,
 	"scroll_speed": 3.0,
@@ -42,16 +48,18 @@
 	"word_wrap": "false",
 	"side_bar_visible": true,
 	"side_bar_width": 260.0,
-	"theme": "GitHub Dimmed.sublime-theme",
+	"theme": "Monokai Pro (Filter Octagon).sublime-theme",
 	"monokai_pro_minimal": true,
 	"monokai_pro_label_font_size": 14,
 	"monokai_pro_sidebar_font_size": 14,
 	"monokai_pro_small_scrollbar": true,
-	"monokai_pro_ui_font_face": "PragmataPro Mono Liga",
+	"monokai_pro_ui_font_face": "PragmataPro Mono",
 	"monokai_pro_style_title_bar": true,
 	"rulers":
 	[
 		80,
 		100
-	]
+	],
+	"index_files": false,
+	/*"find_selected_text": true,*/
 }

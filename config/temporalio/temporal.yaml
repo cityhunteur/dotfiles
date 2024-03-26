@@ -1,5 +1,0 @@
-env:
-    local:
-        address: localhost:3016
-        codec-endpoint: localhost:3000
-        namespace: default
