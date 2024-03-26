@@ -1,9 +1,6 @@
-# Fig pre block. Keep at the top of this file.
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
-
-# Homebrew
-# Read-only access to public repos.
-export HOMEBREW_GITHUB_API_TOKEN=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
+# # Homebrew
+# # Read-only access to public repos.
+# export HOMEBREW_GITHUB_API_TOKEN=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
 
 # If you come from bash you might have to change your $PATH.
 export PATH="$HOME/.jenv/bin:$PATH"
@@ -88,16 +85,16 @@ plugins=(
 	vi-mode
 	zsh-autosuggestions
 	zsh-syntax-highlighting
-  	poetry
 )
 
+# Shell
 source $ZSH/oh-my-zsh.sh
 
 # Pure Prompt
-autoload -Uz compinit; compinit
-autoload -Uz promptinit; promptinit
-PURE_CMD_MAX_EXEC_TIME=3600
-prompt pure
+# autoload -Uz compinit; compinit
+# autoload -Uz promptinit; promptinit
+# PURE_CMD_MAX_EXEC_TIME=3600
+# prompt pure
 
 # User configuration
 
@@ -154,6 +151,22 @@ export PATH="$PATH:${GOPATH//://bin:}/bin"
 # Java
 eval "$(jenv init -)"
 
+# Python
+export PATH="$PATH:/Users/pravin/.local/bin"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# Node
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+# bun completions
+[ -s "/Users/pravin/.bun/_bun" ] && source "/Users/pravin/.bun/_bun"
+
+# Kubernetes
+[ -f ~/.kubectl_aliases ] && source \
+   <(cat ~/.kubectl_aliases | sed -r 's/(kubectl.*) --watch/watch \1/g')
+
 # Shell
 export GIT_TERMINAL_PROMPT=1
 
@@ -163,6 +176,7 @@ export EDITOR='nvim'
 
 export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' --color=fg:#768390,bg:#24292e,hl:#cdd9e5 --color=fg+:#adbac7,bg+:#24292e,hl+:#f69d50 --color=info:#c69026,prompt:#539bf5,pointer:#986ee2 --color=marker:#57ab5a,spinner:#636e7b,header:#3c434d'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
@@ -171,53 +185,65 @@ source /Users/pravin/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-synta
 
 complete -F __start_kubectl kexport PATH="/usr/local/opt/openjdk/bin:$PATH"
 
-[ -f ~/.kubectl_aliases ] && source \
-   <(cat ~/.kubectl_aliases | sed -r 's/(kubectl.*) --watch/watch \1/g')
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /opt/homebrew/bin/terraform
+
 export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/yq@3/bin:$PATH"
-
-# Created by `pipx` on 2021-09-15 14:02:22
-export PATH="$PATH:/Users/pravin/.local/bin"
-
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/local/bin/terraform terraform
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Volumes/Workspace/tools/google-cloud-sdk/path.zsh.inc' ]; then . '/Volumes/Workspace/tools/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Volumes/Workspace/tools/google-cloud-sdk/completion.zsh.inc' ]; then . '/Volumes/Workspace/tools/google-cloud-sdk/completion.zsh.inc'; fi
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/pravin/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/pravin/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/pravin/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/pravin/miniconda3/bin:$PATH"
+# AWS Utility funcs
+assume_role_by_arn() {
+	read -r AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN < <(echo $(aws sts assume-role --role-arn "$1" --role-session-name "$(whoami)" | jq -r '.Credentials.AccessKeyId, .Credentials.SecretAccessKey, .Credentials.SessionToken')) && export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN
+}
+
+# AWS helper functions to assume roles
+assume_role() {
+  role_arn="$(aws iam list-roles | jq -r --arg role_name "$1" '.Roles[] | select(.RoleName==$role_name).Arn')"
+  assume_role_by_arn "$role_arn"
+}
+
+unassume_role() {
+	unset AWS_SESSION_TOKEN AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY
+}
+
+# BEGIN_AWS_SSO_CLI
+
+__aws_sso_profile_complete() {
+     local _args=${AWS_SSO_HELPER_ARGS:- -L error}
+    _multi_parts : "($(/opt/homebrew/bin/aws-sso ${=_args} list --csv Profile))"
+}
+
+aws-sso-profile() {
+    local _args=${AWS_SSO_HELPER_ARGS:- -L error}
+    if [ -n "$AWS_PROFILE" ]; then
+        echo "Unable to assume a role while AWS_PROFILE is set"
+        return 1
     fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
+    eval $(/opt/homebrew/bin/aws-sso ${=_args} eval -p "$1")
+    if [ "$AWS_SSO_PROFILE" != "$1" ]; then
+        return 1
+    fi
+}
 
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
+aws-sso-clear() {
+    local _args=${AWS_SSO_HELPER_ARGS:- -L error}
+    if [ -z "$AWS_SSO_PROFILE" ]; then
+        echo "AWS_SSO_PROFILE is not set"
+        return 1
+    fi
+    eval $(/opt/homebrew/bin/aws-sso ${=_args} eval -c)
+}
 
-# 1Password CLI
-# using aws-vault to manage 1password credentials
-# source /Users/pravin/.config/op/plugins.sh
-source <(temporal completion zsh)
+compdef __aws_sso_profile_complete aws-sso-profile
+complete -C /opt/homebrew/bin/aws-sso aws-sso
 
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+# END_AWS_SSO_CLI
 
-# PHP
-export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
-export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"
-export PATH="/opt/homebrew/opt/mysql@8.0/bin:$PATH"
+eval "$(starship init zsh)"
+eval "$(atuin init zsh)"
