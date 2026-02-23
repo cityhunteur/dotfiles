@@ -1,72 +1,111 @@
+# =============================================================================
+# STARSHIP — FUTURISTIC NORD
+# =============================================================================
+command_timeout = 1000
+scan_timeout = 50
+
+# Nord Color Palette:
+# - Polar Night: #2E3440, #3B4252, #434C5E, #4C566A
+# - Snow Storm: #D8DEE9, #E5E9F0, #ECEFF4
+# - Frost: #8FBCBB, #88C0D0, #81A1C1, #5E81AC
+# - Aurora: #BF616A, #D08770, #EBCB8B, #A3BE8C, #B48EAD
+
 format = """
-$directory\
-$character"""
-# move the rest of the prompt to the right
-# $git_branch\
-# $git_state\
-# $git_status\
-right_format = """"""
-# ❮
-# $aws\
-#  |
-# $gcloud\
-#  |
-# $kubernetes
-# """
+[┌ ](bold #4C566A)$directory $git_branch $git_state$git_status\
+$fill\
+$golang$nodejs$python$rust$java$terraform$docker_context$kubernetes$aws\
+$line_break\
+[└ ](bold #4C566A)$character"""
+
+[fill]
+symbol = "─"
+style = "#3B4252"
 
 [directory]
-style = "blue"
+format = "[⟪ ](#4C566A)[$path]($style)[ ⟫  ](#4C566A)"
+style = "#81A1C1 bold"
+truncation_length = 1
+truncate_to_repo = true
 
 [character]
-success_symbol = "[❯](purple)"
-error_symbol = "[❯](red)"
-vimcmd_symbol = "[❮](green)"
+success_symbol = "[❯](#A3BE8C bold)"
+error_symbol = "[❯](#BF616A bold)"
+vimcmd_symbol = "[❮](#B48EAD bold)"
 
+# =============================================================================
+# Git
+# =============================================================================
 [git_branch]
-format = "[$branch]($style) "
-style = "bright-black"
+format = "[⌥](#4C566A) [$branch]($style)"
+style = "#88C0D0 bold"
 
 [git_status]
-format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind)]($style) "
-style = "cyan"
-conflicted = "​"
-untracked = "​"
-modified = "​"
-staged = "​"
-renamed = "​"
-deleted = "​"
-stashed = "≡"
+format = " [$conflicted$stashed$staged$modified$renamed$untracked$deleted$ahead_behind]($style)"
+style = "#4C566A"
+ahead = "[⇡${count}](#A3BE8C) "
+behind = "[⇣${count}](#BF616A) "
+diverged = "[⇡${ahead_count} ⇣${behind_count}](#D08770) "
+conflicted = "[~](#BF616A) "
+untracked = "[?](#88C0D0) "
+modified = "[!](#EBCB8B) "
+staged = "[+](#A3BE8C) "
+renamed = "[»](#B48EAD) "
+deleted = "[✕](#BF616A) "
+stashed = "[*](#81A1C1) "
 
 [git_state]
 format = '\([$state( $progress_current/$progress_total)]($style)\) '
-style = "bright-black"
+style = "#4C566A"
 
-[golang]
-format = 'via [$symbol($version )($mod_version )]($style)'
+# =============================================================================
+# Languages & Tools (right-aligned)
+# =============================================================================
+[nodejs]
+format = "[⟨](#3B4252)[$symbol]($style)[⟩](#3B4252) "
+symbol = "⬢"
+style = "#A3BE8C bold"
 
 [python]
-format = "[$virtualenv]($style) "
-style = "bright-black"
+format = "[⟨](#3B4252)[$symbol $version(::$virtualenv)]($style)[⟩](#3B4252) "
+symbol = "◆"
+style = "#EBCB8B bold"
 
-[aws]
-format = '[$symbol$profile]($style) '
-style = "bright-black"
-symbol = 'aws::'
-force_display = true
+[golang]
+format = "[⟨](#3B4252)[$symbol $version]($style)[⟩](#3B4252) "
+symbol = "▦"
+style = "#8FBCBB bold"
 
+[rust]
+format = "[⟨](#3B4252)[$symbol $version]($style)[⟩](#3B4252) "
+symbol = "⊙"
+style = "#BF616A bold"
 
-[gcloud]
-format = '[$symbol$project]($style) '
-style = "bright-black"
-symbol = 'gcp::'
-# [gcloud.project_aliases]
+[java]
+format = "[⟨](#3B4252)[$symbol]($style)[⟩](#3B4252) "
+symbol = "◉"
+style = "#D08770"
 
+[terraform]
+format = "[⟨](#3B4252)[$symbol]($style)[⟩](#3B4252) "
+symbol = "△"
+style = "#B48EAD bold"
 
 [kubernetes]
-format = '[$context::$namespace]($style) '
-style = "bright-black"
+format = '[⟨](#3B4252)[$symbol $context::$namespace]($style)[⟩](#3B4252) '
+symbol = "⎈"
+style = "#5E81AC bold"
 disabled = false
-contexts = []
 
-[cmd_duration]
-disabled = true
+[docker_context]
+format = "[⟨](#3B4252)[$symbol]($style)[⟩](#3B4252) "
+symbol = "◈"
+style = "#81A1C1 bold"
+
+# =============================================================================
+# Status
+# =============================================================================
+[aws]
+format = '[⟨](#3B4252)[$symbol $profile]($style)[⟩](#3B4252) '
+symbol = "▲"
+style = "#D08770 bold"
+disabled = false

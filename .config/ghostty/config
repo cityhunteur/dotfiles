@@ -1,0 +1,24 @@
+theme = light:"Nord Light",dark:nord
+title = ""
+macos-titlebar-style = hidden
+confirm-close-surface = false
+window-save-state = always
+window-padding-x = 5,5
+window-padding-y = 5,0
+unfocused-split-opacity = 0.5
+
+font-family = ""
+font-family = "PragmataPro Mono Liga"
+font-size = 16
+font-style = false
+font-thicken = true
+font-feature = "calt"
+font-feature = "lima"
+font-feature = "dig"
+font-feature = "ss20"
+adjust-cell-height = 40%
+
+quick-terminal-position = right
+
+keybind = ctrl+`=toggle_quick_terminal
+keybind = shift+enter=text:\x1b\r

@@ -7,17 +7,14 @@
 	insteadOf = https://bitbucket.org/
 [url "git@github.com:"]
 	insteadOf = https://github.com/
-[url "ssh://git@github.com/"]
-	insteadOf = https://github.com/
 [core]
 	excludesFile = ~/.gitignore
-	pager = diff-so-fancy | less --tabs=4 -RFX
 [pull]
 	rebase = true
 [user]
 	name = Pravin Goomannee
 	email = 5994387+Cityhunteur@users.noreply.github.com
-	signingkey = 3478A947A77283F5!
+	signingKey = 4ED9EB884710B8E4F8A5EC0631B570DC0F30D362
 [init]
 	defaultBranch = main
 [interactive]
@@ -38,12 +35,12 @@
 	new = green bold
 	whitespace = red reverse
 [commit]
-	gpgsign = true
+	gpgSign = false
 [gpg]
 	program = /usr/local/MacGPG2/bin/gpg2
+	format = openpgp
 [diff]
         tool = difftastic
-
 [difftool]
         prompt = false
 
@@ -57,3 +54,21 @@
 [alias]
         dlog = "!f() { : git log ; GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f"
         dft = difftool
+[url "git@hf.co/"]
+	insteadOf = https://hf.co/
+[url "git@silverdoor:silverdoorapartments/"]
+	insteadOf = https://github.com/silverdoorapartments/
+[url "git@resolution:resolutionlifegroup/"]
+	insteadOf = https://github.com/resolutionlifegroup/
+[tag]
+	forceSignAnnotated = false
+	gpgsign = true
+[credential "https://github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[gpg "ssh"]
+	program = 
+	allowedSignersFile = 
