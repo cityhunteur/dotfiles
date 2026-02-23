@@ -28,7 +28,7 @@ export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 # -----------------------------------------------------------------------------
 #
 # Path to oh-my-zsh installation
-export ZSH="/Users/pravin/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Theme configuration - using starship prompt
 ZSH_THEME=""
@@ -148,7 +148,7 @@ export PATH="$PATH:${GOPATH//://bin:}/bin"
 
 # Python Configuration
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PATH:/Users/pravin/.local/bin"
+export PATH="$PATH:$HOME/.local/bin"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 export UV_LINK_MODE=copy
@@ -166,7 +166,7 @@ export NVM_DIR="$HOME/.nvm"
 # Bun Configuration
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-[ -s "/Users/pravin/.bun/_bun" ] && source "/Users/pravin/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # Java Configuration (SDKMAN)
 export SDKMAN_DIR="$HOME/.sdkman"
@@ -266,7 +266,7 @@ fi
 # Development Tools
 # -----------------------------------------------------------------------------
 # Windsurf (AI-powered code editor)
-export PATH="/Users/pravin/.codeium/windsurf/bin:$PATH"
+export PATH="$HOME/.codeium/windsurf/bin:$PATH"
 
 # GitKraken CLI
 export PATH="/Applications/GitKraken.app/Contents/Resources/bin:$PATH"
@@ -299,7 +299,7 @@ llm() {
 }
 
 # Added by Antigravity
-export PATH="/Users/pravin/.antigravity/antigravity/bin:$PATH"
+export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 
 # Keep Codex on the Bun global install, even if other tool paths are prepended later.
 export PATH="$HOME/.bun/bin:$PATH"
