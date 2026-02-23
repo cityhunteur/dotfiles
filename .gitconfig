@@ -14,11 +14,8 @@
 [user]
 	name = Pravin Goomannee
 	email = 5994387+Cityhunteur@users.noreply.github.com
-	signingKey = 4ED9EB884710B8E4F8A5EC0631B570DC0F30D362
 [init]
 	defaultBranch = main
-[interactive]
-	diffFilter = diff-so-fancy --patch
 [color]
 	ui = true
 [color "diff-highlight"]
@@ -36,39 +33,29 @@
 	whitespace = red reverse
 [commit]
 	gpgSign = false
-[gpg]
-	program = /usr/local/MacGPG2/bin/gpg2
-	format = openpgp
+[tag]
+	forceSignAnnotated = false
+	gpgsign = false
 [diff]
-        tool = difftastic
+	tool = difftastic
 [difftool]
-        prompt = false
-
+	prompt = false
 [difftool "difftastic"]
-        cmd = difft "$LOCAL" "$REMOTE"
-
+	cmd = difft "$LOCAL" "$REMOTE"
 [pager]
-        difftool = true
-[diff]
-        external = difft
+	difftool = true
 [alias]
-        dlog = "!f() { : git log ; GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f"
-        dft = difftool
+	dlog = "!f() { : git log ; GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f"
+	dft = difftool
 [url "git@hf.co/"]
 	insteadOf = https://hf.co/
 [url "git@silverdoor:silverdoorapartments/"]
 	insteadOf = https://github.com/silverdoorapartments/
 [url "git@resolution:resolutionlifegroup/"]
 	insteadOf = https://github.com/resolutionlifegroup/
-[tag]
-	forceSignAnnotated = false
-	gpgsign = true
 [credential "https://github.com"]
-	helper = 
+	helper =
 	helper = !/opt/homebrew/bin/gh auth git-credential
 [credential "https://gist.github.com"]
-	helper = 
+	helper =
 	helper = !/opt/homebrew/bin/gh auth git-credential
-[gpg "ssh"]
-	program = 
-	allowedSignersFile = 

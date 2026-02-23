@@ -109,7 +109,7 @@ TAPPED_FORMULAS=(
 
 for formula in "${FORMULAS[@]}"; do
     if ! zb list 2>/dev/null | grep -q "^$formula\$"; then
-        zb install "$formula" || info "Failed to install $formula, trying brew..."
+        zb install "$formula" 2>/dev/null || brew install "$formula" || info "Failed to install: $formula"
     else
         info "Already installed: $formula"
     fi
