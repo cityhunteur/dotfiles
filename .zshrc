@@ -122,6 +122,153 @@ function lk {
     cd "$(walk "$@")"
 }
 
+tmux_session_symbol() {
+    local session_name="${1:l}"
+
+    case "$session_name" in
+        ocos|opencorex|opencoreos)
+            echo "⊙"
+            ;;
+        workspace|work|ws)
+            echo "◫"
+            ;;
+        hacker|hack*|code*|dev*|lab|sandbox|scratch)
+            echo "⌁"
+            ;;
+        review|reviewer|qa|audit)
+            echo "◍"
+            ;;
+        stack|infra|ops)
+            echo "☰"
+            ;;
+        tools|tooling|utils|bin)
+            echo "⌘"
+            ;;
+        docs|doc*|notes|wiki)
+            echo "✎"
+            ;;
+        app|app-*|ui|web)
+            echo "◎"
+            ;;
+        home|main|root)
+            echo "⌂"
+            ;;
+        *)
+            echo "○"
+            ;;
+    esac
+}
+
+tmux_symbols() {
+    local requested_session="${1:-ocos}"
+    local session="$requested_session"
+    local base_session_name="$requested_session"
+    local known_session_prefixes=("⊙-" "🧭-" "○-" "◫-" "⌁-" "◍-" "☰-" "⌘-" "✎-" "◎-" "⌂-")
+    local known_prefix
+
+    for known_prefix in "${known_session_prefixes[@]}"; do
+        if [[ "$base_session_name" == ${known_prefix}* ]]; then
+            base_session_name="${base_session_name#${known_prefix}}"
+            break
+        fi
+    done
+
+    local session_symbol
+    session_symbol="$(tmux_session_symbol "$base_session_name")"
+    local session_prefix="${session_symbol}-"
+    local prefixed_session="${session_prefix}${base_session_name}"
+    local candidate_session
+
+    if ! command -v codex >/dev/null 2>&1; then
+        echo "codex is not installed or not on PATH"
+        return 1
+    fi
+
+    if ! command -v tmux >/dev/null 2>&1; then
+        echo "tmux is not installed or not on PATH"
+        return 1
+    fi
+
+    if ! tmux has-session -t "$session" 2>/dev/null; then
+        if tmux has-session -t "$prefixed_session" 2>/dev/null; then
+            session="$prefixed_session"
+        else
+            for known_prefix in "${known_session_prefixes[@]}"; do
+                candidate_session="${known_prefix}${base_session_name}"
+                if tmux has-session -t "$candidate_session" 2>/dev/null; then
+                    session="$candidate_session"
+                    break
+                fi
+            done
+        fi
+
+        if [[ "$session" == "$requested_session" ]] && tmux has-session -t "$base_session_name" 2>/dev/null; then
+            session="$base_session_name"
+        fi
+
+        if ! tmux has-session -t "$session" 2>/dev/null; then
+            echo "tmux session '$requested_session' does not exist"
+            return 1
+        fi
+    fi
+
+    base_session_name="$session"
+    for known_prefix in "${known_session_prefixes[@]}"; do
+        if [[ "$base_session_name" == ${known_prefix}* ]]; then
+            base_session_name="${base_session_name#${known_prefix}}"
+            break
+        fi
+    done
+
+    session_symbol="$(tmux_session_symbol "$base_session_name")"
+    session_prefix="${session_symbol}-"
+    prefixed_session="${session_prefix}${base_session_name}"
+
+    if [[ "$session" != "$prefixed_session" ]]; then
+        if tmux has-session -t "$prefixed_session" 2>/dev/null; then
+            echo "tmux session rename target '$prefixed_session' already exists"
+            return 1
+        fi
+
+        tmux rename-session -t "$session" "$prefixed_session"
+        session="$prefixed_session"
+    fi
+
+    local prompt
+    prompt=$(cat <<EOF
+Update the tmux session "$session" window names to use minimalist semantic monochrome symbols in front of the names.
+
+Use this style:
+- workspace -> ◫ workspace
+- hacker -> ⌁ hacker
+- reviewer -> ◍ reviewer
+- stack -> ☰ stack
+- tools -> ⌘ tools
+- docs -> ✎ docs
+- app or app-* -> ◎ app-
+- home -> ⌂ home
+
+Instructions:
+- Inspect the existing tmux windows in session "$session" first.
+- Keep the session name "$session" unchanged. It has already been normalized with the minimal symbol prefix "$session_prefix".
+- Rename only windows that exist.
+- Preserve the readable name after the symbol.
+- For well-known session window names, use the exact symbols above.
+- For unmatched names, choose a clean neutral monochrome symbol and keep the label readable.
+- Use tmux commands directly.
+- Do not modify files.
+- Print a short summary of what changed.
+EOF
+)
+
+    codex exec \
+        --skip-git-repo-check \
+        --dangerously-bypass-approvals-and-sandbox \
+        --ephemeral \
+        -C "$HOME" \
+        "$prompt"
+}
+
 # k9s theme switching
 k9s_theme_dark() {
     sed -i '' 's/skin: .*/skin: nord/' "$HOME/Library/Application Support/k9s/config.yaml"
