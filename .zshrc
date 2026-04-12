@@ -330,7 +330,7 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' --color=fg:#768390,bg:#24292e,hl:#cdd
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Kubernetes Configuration
-export KUBECONFIG="$HOME/.kube/kind.yaml:$HOME/.kube/dev.yaml"
+export KUBECONFIG="$HOME/.kube/config"
 [ -f ~/.kubectl_aliases ] && source \
     <(sed -E 's/(kubectl.*) --watch/watch \1/g' ~/.kubectl_aliases)
 complete -F __start_kubectl k
