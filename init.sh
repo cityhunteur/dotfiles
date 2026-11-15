@@ -236,6 +236,7 @@ safe_symlink "$REPO_ROOT/.tmux.conf" "$HOME/.tmux.conf"
 
 # .config files
 safe_symlink "$REPO_ROOT/.config/starship.toml" "$HOME/.config/starship.toml"
+safe_symlink "$REPO_ROOT/.config/tmux/git-segment.sh" "$HOME/.config/tmux/git-segment.sh"
 safe_symlink "$REPO_ROOT/.config/atuin/config.toml" "$HOME/.config/atuin/config.toml"
 safe_symlink "$REPO_ROOT/.config/bat/config" "$HOME/.config/bat/config"
 safe_symlink "$REPO_ROOT/.config/helix/config.toml" "$HOME/.config/helix/config.toml"

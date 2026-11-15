@@ -22,6 +22,15 @@ adjust-cell-height = 40%
 # Thicker bar cursor (pixels added to the font's default thickness)
 adjust-cursor-thickness = 3
 
+# One steady bar everywhere (prompt, running commands, after tmux resets it).
+# Ghostty's shell integration still switches to a block in vi normal mode;
+# blink=false makes it export cursor:steady to the shell.
+cursor-style = bar
+cursor-style-blink = false
+# Frost 4: about 3:1 on both the Nord (#2e3440) and Nord Light (#e5e9f0)
+# backgrounds. The theme colours drop to 1.9:1 on Nord Light.
+cursor-color = #5e81ac
+
 quick-terminal-position = right
 
 keybind = ctrl+`=toggle_quick_terminal
