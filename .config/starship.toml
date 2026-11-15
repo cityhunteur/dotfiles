@@ -12,10 +12,10 @@ scan_timeout = 50
 #   rule      rails and fill (┌ └ ─): borderControl grey, matching the tmux
 #             status-line rules (borderHairline vanishes on the terminal canvas)
 #   muted     readable metadata: brackets, markers, tool versions
-#   primary   values: branch name
-#   link      selected/path ink: directory
-#   accent    the focal signal: prompt character
-#   success / warn / fault  git state, always paired with a distinct marker
+#   primary   values: directory, branch, failure marker
+#   accent    the only colour: the prompt character ❯
+# Like the tmux status line, the prompt is neutral grey/black; states are told
+# apart by their markers (! + ? ✘ …), never by hue.
 palette = "glacier_dark"
 
 format = """\
@@ -32,16 +32,16 @@ style = "rule"
 
 [directory]
 format = "[⟪ ](muted)[$path]($style)[ ⟫  ](muted)"
-style = "link bold"
+style = "primary bold"
 truncation_length = 1
 truncate_to_repo = true
 
-# Failure differs by marker as well as colour (✘), and vi normal mode by
-# direction (❮), so no state depends on hue alone.
+# Failure adds a ✘ marker and vi normal mode flips direction (❮); the
+# accent stays on the prompt character in every state.
 [character]
 success_symbol = "[❯](accent bold)"
-error_symbol = "[✘ ❯](fault bold)"
-vimcmd_symbol = "[❮](primary bold)"
+error_symbol = "[✘ ](primary bold)[❯](accent bold)"
+vimcmd_symbol = "[❮](accent bold)"
 
 # =============================================================================
 # Git
@@ -50,25 +50,25 @@ vimcmd_symbol = "[❮](primary bold)"
 format = "[⌥](muted) [$branch]($style)"
 style = "primary"
 
-# Each state keeps its own marker; colour is reserved for exceptions
-# (conflict = fault, unstaged change = warn) and staged work (success).
+# Each state keeps its own marker in grey; a conflict is the one marker in
+# primary bold, because it blocks work.
 [git_status]
 format = " [$conflicted$stashed$staged$modified$renamed$untracked$deleted$ahead_behind]($style)"
 style = "muted"
 ahead = "[⇡${count}](muted) "
 behind = "[⇣${count}](muted) "
-diverged = "[⇡${ahead_count} ⇣${behind_count}](warn) "
-conflicted = "[~](fault) "
+diverged = "[⇡${ahead_count} ⇣${behind_count}](muted) "
+conflicted = "[~](primary bold) "
 untracked = "[?](muted) "
-modified = "[!](warn) "
-staged = "[+](success) "
+modified = "[!](muted) "
+staged = "[+](muted) "
 renamed = "[»](muted) "
-deleted = "[×](warn) "
+deleted = "[×](muted) "
 stashed = "[*](muted) "
 
 [git_state]
 format = '\([$state( $progress_current/$progress_total)]($style)\) '
-style = "warn"
+style = "primary"
 
 # =============================================================================
 # Languages & Tools (right-aligned). Metadata, so muted ink; the symbol
@@ -190,18 +190,10 @@ symbol_threshold = 1
 primary = "#ECEFF4"
 muted = "#AAB7C9"
 rule = "#8999AD"
-link = "#88C0D0"
 accent = "#88C0D0"
-success = "#A3BE8C"
-warn = "#EBCB8B"
-fault = "#E9A2AA"
 
 [palettes.glacier_light]  # themes.continuum-light
 primary = "#2E3440"
 muted = "#5A677B"
 rule = "#748298"
-link = "#236B85"
 accent = "#286F89"
-success = "#4D6B3D"
-warn = "#836316"
-fault = "#A13F4C"
