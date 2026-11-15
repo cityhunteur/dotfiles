@@ -8,6 +8,7 @@ window-padding-y = 2
 window-padding-balance = true
 unfocused-split-opacity = 0.5
 
+font-family = ""
 font-family = "PragmataPro Mono Liga"
 font-size = 16
 font-style = false
@@ -18,7 +19,13 @@ font-feature = "dig"
 font-feature = "ss20"
 adjust-cell-height = 40%
 
+# Thicker bar cursor (pixels added to the font's default thickness)
+adjust-cursor-thickness = 3
+
 quick-terminal-position = right
 
 keybind = ctrl+`=toggle_quick_terminal
 keybind = shift+enter=text:\x1b\r
+
+copy-on-select = clipboard
+right-click-action = paste

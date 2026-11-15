@@ -11,7 +11,7 @@ scan_timeout = 50
 # - Frost: #8FBCBB, #88C0D0, #81A1C1, #5E81AC
 # - Aurora: #BF616A, #D08770, #EBCB8B, #A3BE8C, #B48EAD
 
-format = """
+format = """\
 [┌ ](bold #4C566A)$directory $git_branch $git_state$git_status\
 $fill\
 $golang$nodejs$python$rust$java$terraform$docker_context$kubernetes$aws\
@@ -70,6 +70,8 @@ style = "#A3BE8C bold"
 format = "[⟨](#3B4252)[$symbol $version(::$virtualenv)]($style)[⟩](#3B4252) "
 symbol = "◆"
 style = "#EBCB8B bold"
+detect_extensions = []
+python_binary = []
 
 [golang]
 format = "[⟨](#3B4252)[$symbol $version]($style)[⟩](#3B4252) "
