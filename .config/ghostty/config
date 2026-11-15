@@ -1,4 +1,6 @@
-theme = light:"Nord Light",dark:nord
+# Installed Nord Light / Nord, copied with Meister / Continuum Glacier 2.0.0
+# cursor and selection roles merged in (see themes/). Palettes are unchanged.
+theme = light:nord-light-glacier,dark:nord-glacier
 title = ""
 macos-titlebar-style = hidden
 confirm-close-surface = false
@@ -27,9 +29,7 @@ adjust-cursor-thickness = 3
 # blink=false makes it export cursor:steady to the shell.
 cursor-style = bar
 cursor-style-blink = false
-# Frost 4: about 3:1 on both the Nord (#2e3440) and Nord Light (#e5e9f0)
-# backgrounds. The theme colours drop to 1.9:1 on Nord Light.
-cursor-color = #5e81ac
+# Cursor and selection colours come from the theme copies.
 
 quick-terminal-position = right
 

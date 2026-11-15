@@ -1,115 +1,207 @@
 # =============================================================================
-# STARSHIP — FUTURISTIC NORD
+# STARSHIP: Meister / Continuum Glacier 2.0.0
 # =============================================================================
 add_newline = false
 command_timeout = 1000
 scan_timeout = 50
 
-# Colours are ANSI names, not hex, so the prompt follows the Ghostty theme
-# (Nord in dark mode, Nord Light in light mode) like the tmux status bar does.
-#   bright-black = rails, brackets, fill (chrome)
-#   blue = Frost 3, cyan = Frost 2, bright-cyan = Frost 1
-#   green / yellow / red / purple = Aurora; orange has no ANSI slot, so the
-#   former orange accents (diverged, java, aws) use yellow
+# Every colour is a Glacier semantic role from tokens/meister-continuum.json.
+# Starship cannot follow the terminal theme itself, so ~/.config/zsh/glacier.zsh
+# selects the matching palette per prompt: this file uses glacier_dark, and a
+# cached copy with `palette = "glacier_light"` is used in light mode.
+#   rule      rails and fill (┌ └ ─): borderControl grey, matching the tmux
+#             status-line rules (borderHairline vanishes on the terminal canvas)
+#   muted     readable metadata: brackets, markers, tool versions
+#   primary   values: branch name
+#   link      selected/path ink: directory
+#   accent    the focal signal: prompt character
+#   success / warn / fault  git state, always paired with a distinct marker
+palette = "glacier_dark"
 
 format = """\
-[┌ ](bold bright-black)$directory $git_branch $git_state$git_status\
+[┌ ](rule)$directory $git_branch $git_state$git_status\
 $fill\
-$golang$nodejs$python$rust$java$terraform$docker_context$kubernetes$aws\
+$golang$nodejs$bun$deno$python$rust$java$swift$zig$c$lua$ruby\
+$terraform$docker_context$helm$kubernetes$aws$cmd_duration$jobs\
 $line_break\
-[└ ](bold bright-black)$character"""
+[└ ](rule)$character"""
 
 [fill]
 symbol = "─"
-style = "bright-black"
+style = "rule"
 
 [directory]
-format = "[⟪ ](bright-black)[$path]($style)[ ⟫  ](bright-black)"
-style = "blue bold"
+format = "[⟪ ](muted)[$path]($style)[ ⟫  ](muted)"
+style = "link bold"
 truncation_length = 1
 truncate_to_repo = true
 
+# Failure differs by marker as well as colour (✘), and vi normal mode by
+# direction (❮), so no state depends on hue alone.
 [character]
-success_symbol = "[❯](green bold)"
-error_symbol = "[❯](red bold)"
-vimcmd_symbol = "[❮](purple bold)"
+success_symbol = "[❯](accent bold)"
+error_symbol = "[✘ ❯](fault bold)"
+vimcmd_symbol = "[❮](primary bold)"
 
 # =============================================================================
 # Git
 # =============================================================================
 [git_branch]
-format = "[⌥](bright-black) [$branch]($style)"
-style = "cyan bold"
+format = "[⌥](muted) [$branch]($style)"
+style = "primary"
 
+# Each state keeps its own marker; colour is reserved for exceptions
+# (conflict = fault, unstaged change = warn) and staged work (success).
 [git_status]
 format = " [$conflicted$stashed$staged$modified$renamed$untracked$deleted$ahead_behind]($style)"
-style = "bright-black"
-ahead = "[⇡${count}](green) "
-behind = "[⇣${count}](red) "
-diverged = "[⇡${ahead_count} ⇣${behind_count}](yellow) "
-conflicted = "[~](red) "
-untracked = "[?](cyan) "
-modified = "[!](yellow) "
-staged = "[+](green) "
-renamed = "[»](purple) "
-deleted = "[×](red) "
-stashed = "[*](blue) "
+style = "muted"
+ahead = "[⇡${count}](muted) "
+behind = "[⇣${count}](muted) "
+diverged = "[⇡${ahead_count} ⇣${behind_count}](warn) "
+conflicted = "[~](fault) "
+untracked = "[?](muted) "
+modified = "[!](warn) "
+staged = "[+](success) "
+renamed = "[»](muted) "
+deleted = "[×](warn) "
+stashed = "[*](muted) "
 
 [git_state]
 format = '\([$state( $progress_current/$progress_total)]($style)\) '
-style = "bright-black"
+style = "warn"
 
 # =============================================================================
-# Languages & Tools (right-aligned)
+# Languages & Tools (right-aligned). Metadata, so muted ink; the symbol
+# identifies the tool, not a colour.
+# Every symbol is single-width, covered by PragmataPro, and distinct from the
+# tmux session/window vocabulary in ~/.config/zsh/tmux-symbols.zsh (only ⎈
+# is shared, with the same meaning: Kubernetes).
 # =============================================================================
 [nodejs]
-format = "[⟨](bright-black)[$symbol]($style)[⟩](bright-black) "
+format = "[⟨](muted)[$symbol]($style)[⟩](muted) "
 symbol = "⏣"
-style = "green bold"
+style = "muted"
 
 [python]
-format = "[⟨](bright-black)[$symbol $version(::$virtualenv)]($style)[⟩](bright-black) "
+format = "[⟨](muted)[$symbol $version(::$virtualenv)]($style)[⟩](muted) "
 symbol = "◆"
-style = "yellow bold"
+style = "muted"
 detect_extensions = []
 python_binary = []
 
 [golang]
-format = "[⟨](bright-black)[$symbol $version]($style)[⟩](bright-black) "
+format = "[⟨](muted)[$symbol $version]($style)[⟩](muted) "
 symbol = "▦"
-style = "bright-cyan bold"
+style = "muted"
 
 [rust]
-format = "[⟨](bright-black)[$symbol $version]($style)[⟩](bright-black) "
-symbol = "⊙"
-style = "red bold"
+format = "[⟨](muted)[$symbol $version]($style)[⟩](muted) "
+symbol = "⚒"
+style = "muted"
 
 [java]
-format = "[⟨](bright-black)[$symbol]($style)[⟩](bright-black) "
+format = "[⟨](muted)[$symbol]($style)[⟩](muted) "
 symbol = "◉"
-style = "yellow"
+style = "muted"
 
 [terraform]
-format = "[⟨](bright-black)[$symbol]($style)[⟩](bright-black) "
+format = "[⟨](muted)[$symbol]($style)[⟩](muted) "
 symbol = "△"
-style = "purple bold"
+style = "muted"
 
 [kubernetes]
-format = '[⟨](bright-black)[$symbol $context::$namespace]($style)[⟩](bright-black) '
+format = '[⟨](muted)[$symbol $context::$namespace]($style)[⟩](muted) '
 symbol = "⎈"
-style = "blue bold"
+style = "muted"
 disabled = false
 
 [docker_context]
-format = "[⟨](bright-black)[$symbol]($style)[⟩](bright-black) "
+format = "[⟨](muted)[$symbol]($style)[⟩](muted) "
 symbol = "◈"
-style = "blue bold"
+style = "muted"
+
+[bun]
+format = "[⟨](muted)[$symbol $version]($style)[⟩](muted) "
+symbol = "◭"
+style = "muted"
+
+[deno]
+format = "[⟨](muted)[$symbol $version]($style)[⟩](muted) "
+symbol = "◮"
+style = "muted"
+
+[swift]
+format = "[⟨](muted)[$symbol $version]($style)[⟩](muted) "
+symbol = "⟁"
+style = "muted"
+
+[zig]
+format = "[⟨](muted)[$symbol $version]($style)[⟩](muted) "
+symbol = "⋈"
+style = "muted"
+
+[c]
+format = "[⟨](muted)[$symbol $version]($style)[⟩](muted) "
+symbol = "⊕"
+style = "muted"
+
+[lua]
+format = "[⟨](muted)[$symbol $version]($style)[⟩](muted) "
+symbol = "☾"
+style = "muted"
+
+[ruby]
+format = "[⟨](muted)[$symbol $version]($style)[⟩](muted) "
+symbol = "◊"
+style = "muted"
+
+[helm]
+format = "[⟨](muted)[$symbol $version]($style)[⟩](muted) "
+symbol = "⌖"
+style = "muted"
 
 # =============================================================================
 # Status
 # =============================================================================
 [aws]
-format = '[⟨](bright-black)[$symbol $profile]($style)[⟩](bright-black) '
+format = '[⟨](muted)[$symbol $profile]($style)[⟩](muted) '
 symbol = "▲"
-style = "yellow bold"
+style = "muted"
 disabled = false
+
+# Last command took 2 s or more.
+[cmd_duration]
+format = "[⟨](muted)[⧖ $duration]($style)[⟩](muted) "
+style = "muted"
+min_time = 2_000
+
+# Background jobs, with their count.
+[jobs]
+format = "[⟨](muted)[$symbol$number]($style)[⟩](muted) "
+symbol = "⚙ "
+style = "muted"
+number_threshold = 1
+symbol_threshold = 1
+
+# =============================================================================
+# Glacier palettes (kept last: TOML tables swallow every key that follows them)
+# =============================================================================
+[palettes.glacier_dark]   # themes.continuum-dark
+primary = "#ECEFF4"
+muted = "#AAB7C9"
+rule = "#8999AD"
+link = "#88C0D0"
+accent = "#88C0D0"
+success = "#A3BE8C"
+warn = "#EBCB8B"
+fault = "#E9A2AA"
+
+[palettes.glacier_light]  # themes.continuum-light
+primary = "#2E3440"
+muted = "#5A677B"
+rule = "#748298"
+link = "#236B85"
+accent = "#286F89"
+success = "#4D6B3D"
+warn = "#836316"
+fault = "#A13F4C"

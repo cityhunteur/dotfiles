@@ -237,6 +237,10 @@ safe_symlink "$REPO_ROOT/.tmux.conf" "$HOME/.tmux.conf"
 # .config files
 safe_symlink "$REPO_ROOT/.config/starship.toml" "$HOME/.config/starship.toml"
 safe_symlink "$REPO_ROOT/.config/tmux/git-segment.sh" "$HOME/.config/tmux/git-segment.sh"
+safe_symlink "$REPO_ROOT/.config/tmux/glacier-light.conf" "$HOME/.config/tmux/glacier-light.conf"
+safe_symlink "$REPO_ROOT/.config/tmux/glacier-dark.conf" "$HOME/.config/tmux/glacier-dark.conf"
+safe_symlink "$REPO_ROOT/.config/zsh/glacier.zsh" "$HOME/.config/zsh/glacier.zsh"
+safe_symlink "$REPO_ROOT/.config/zsh/tmux-symbols.zsh" "$HOME/.config/zsh/tmux-symbols.zsh"
 safe_symlink "$REPO_ROOT/.config/atuin/config.toml" "$HOME/.config/atuin/config.toml"
 safe_symlink "$REPO_ROOT/.config/bat/config" "$HOME/.config/bat/config"
 safe_symlink "$REPO_ROOT/.config/helix/config.toml" "$HOME/.config/helix/config.toml"
@@ -244,6 +248,7 @@ safe_symlink "$REPO_ROOT/.config/zed/settings.json" "$HOME/.config/zed/settings.
 
 # Ghostty (uses Application Support on macOS)
 safe_symlink "$REPO_ROOT/.config/ghostty/config" "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
+safe_symlink "$REPO_ROOT/.config/ghostty/themes" "$HOME/.config/ghostty/themes"
 
 # Karabiner (entire directory)
 if [[ -d "$REPO_ROOT/.config/karabiner" ]]; then
