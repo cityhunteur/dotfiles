@@ -1,0 +1,14 @@
+inherits = "nord"
+
+"ui.background" = { bg = "#2e3440" }
+"ui.cursor" = { fg = "#2e3440", bg = "#f2f2f2" }
+"ui.cursor.primary" = { fg = "#2e3440", bg = "#f2f2f2" }
+"ui.text" = "#f2f2f2"
+"ui.statusline" = { fg = "#f2f2f2", bg = "#2e3440" }
+"ui.statusline.inactive" = { fg = "#a0a0a0", bg = "#2e3440" }
+"ui.statusline.normal" = { fg = "#88d8de", bg = "#2e3440", modifiers = ["bold"] }
+"ui.statusline.insert" = { fg = "#88d8de", bg = "#2e3440", modifiers = ["bold"] }
+"ui.statusline.select" = { fg = "#88d8de", bg = "#2e3440", modifiers = ["bold"] }
+"ui.selection" = { fg = "#eceff4", bg = "#43546a" }
+"ui.selection.primary" = { fg = "#eceff4", bg = "#43546a" }
+"ui.menu.selected" = { fg = "#88d8de", bg = "#2e3440", modifiers = ["bold"] }

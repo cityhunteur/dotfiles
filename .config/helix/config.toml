@@ -1,1 +1,4 @@
-theme = "github_light"
+theme = "signal"
+
+[editor]
+color-modes = true

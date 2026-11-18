@@ -1,0 +1,85 @@
+# Signal dark interface with Nord resource and syntax colours.
+k9s:
+  body:
+    fgColor: "#f2f2f2"
+    bgColor: "#2e3440"
+    logoColor: "#a0a0a0"
+  prompt:
+    fgColor: "#f2f2f2"
+    bgColor: "#2e3440"
+    suggestColor: "#88d8de"
+  info:
+    fgColor: "#88C0D0"
+    sectionColor: "#D8DEE9"
+  dialog:
+    fgColor: "#D8DEE9"
+    bgColor: "#3B4252"
+    buttonFgColor: "#D8DEE9"
+    buttonBgColor: "#5E81AC"
+    buttonFocusFgColor: "#88d8de"
+    buttonFocusBgColor: "#2e3440"
+    labelFgColor: "#D08770"
+    fieldFgColor: "#D8DEE9"
+  frame:
+    border:
+      fgColor: "#4C566A"
+      focusColor: "#88d8de"
+    menu:
+      fgColor: "#D8DEE9"
+      keyColor: "#88d8de"
+      numKeyColor: "#88d8de"
+    crumbs:
+      fgColor: "#ECEFF4"
+      bgColor: "#5E81AC"
+      activeColor: "#81A1C1"
+    status:
+      newColor: "#88C0D0"
+      modifyColor: "#81A1C1"
+      addColor: "#A3BE8C"
+      pendingColor: "#D08770"
+      errorColor: "#BF616A"
+      highlightColor: "#EBCB8B"
+      killColor: "#B48EAD"
+      completedColor: "#4C566A"
+    title:
+      fgColor: "#D8DEE9"
+      bgColor: "#3B4252"
+      highlightColor: "#88d8de"
+      counterColor: "#81A1C1"
+      filterColor: "#B48EAD"
+  views:
+    charts:
+      bgColor: default
+      defaultDialColors:
+        - "#81A1C1"
+        - "#BF616A"
+      defaultChartColors:
+        - "#81A1C1"
+        - "#BF616A"
+    table:
+      fgColor: "#f2f2f2"
+      bgColor: "#2e3440"
+      cursorFgColor: "#88d8de"
+      cursorBgColor: "#2e3440"
+      header:
+        fgColor: "#a0a0a0"
+        bgColor: "#2e3440"
+        sorterColor: "#88d8de"
+    xray:
+      fgColor: "#D8DEE9"
+      bgColor: "#2E3440"
+      cursorColor: "#81A1C1"
+      graphicColor: "#5E81AC"
+      showIcons: false
+    yaml:
+      keyColor: "#88C0D0"
+      colonColor: "#4C566A"
+      valueColor: "#D8DEE9"
+    logs:
+      fgColor: "#D8DEE9"
+      bgColor: "#2E3440"
+      indicator:
+        fgColor: "#D8DEE9"
+        bgColor: "#5E81AC"
+        toggleOnColor: "#A3BE8C"
+        toggleOffColor: "#4C566A"

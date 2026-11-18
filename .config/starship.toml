@@ -1,22 +1,16 @@
 # =============================================================================
-# STARSHIP: Meister / Continuum Glacier 2.0.0
+# STARSHIP: Meister / Continuum — Signal 3.0.0
 # =============================================================================
 add_newline = false
 command_timeout = 1000
 scan_timeout = 50
 
-# Every colour is a Glacier semantic role from tokens/meister-continuum.json.
-# Starship cannot follow the terminal theme itself, so ~/.config/zsh/glacier.zsh
-# selects the matching palette per prompt: this file uses glacier_dark, and a
-# cached copy with `palette = "glacier_light"` is used in light mode.
-#   rule      rails and fill (┌ └ ─): borderControl grey, matching the tmux
-#             status-line rules (borderHairline vanishes on the terminal canvas)
+# The appearance helper selects one of these palettes in the installed copy.
+#   rule      rails and fill (┌ └ ─): decorative lines on the shared Nord canvas
 #   muted     readable metadata: brackets, markers, tool versions
 #   primary   values: directory, branch, failure marker
-#   accent    the only colour: the prompt character ❯
-# Like the tmux status line, the prompt is neutral grey/black; states are told
-# apart by their markers (! + ? ✘ …), never by hue.
-palette = "glacier_dark"
+#   accent    prompt character ❯ (ice cyan in dark mode, muted teal in light mode)
+palette = "signal_dark"
 
 format = """\
 [┌ ](rule)$directory $git_branch $git_state$git_status\
@@ -73,7 +67,8 @@ style = "primary"
 # =============================================================================
 # Languages & Tools (right-aligned). Metadata, so muted ink; the symbol
 # identifies the tool, not a colour.
-# Every symbol is single-width, covered by PragmataPro, and distinct from the
+# Symbols retain the existing vocabulary; local font coverage and cell width
+# require validation. They are distinct from the
 # tmux session/window vocabulary in ~/.config/zsh/tmux-symbols.zsh (only ⎈
 # is shared, with the same meaning: Kubernetes).
 # =============================================================================
@@ -110,7 +105,7 @@ symbol = "△"
 style = "muted"
 
 [kubernetes]
-format = '[⟨](muted)[$symbol $context::$namespace]($style)[⟩](muted) '
+format = '[⟨](muted)[$symbol $context(::$namespace)]($style)[⟩](muted) '
 symbol = "⎈"
 style = "muted"
 disabled = false
@@ -184,16 +179,17 @@ number_threshold = 1
 symbol_threshold = 1
 
 # =============================================================================
-# Glacier palettes (kept last: TOML tables swallow every key that follows them)
+# Signal palettes; action ink follows the appearance.
+# Keep these last: TOML tables swallow every key that follows them.
 # =============================================================================
-[palettes.glacier_dark]   # themes.continuum-dark
-primary = "#ECEFF4"
-muted = "#AAB7C9"
-rule = "#8999AD"
-accent = "#88C0D0"
+[palettes.signal_dark]   # themes.continuum-dark
+primary = "#F2F2F2"
+muted = "#A0A0A0"
+rule = "#8A8A8A"
+accent = "#88D8DE"
 
-[palettes.glacier_light]  # themes.continuum-light
-primary = "#2E3440"
-muted = "#5A677B"
-rule = "#748298"
-accent = "#286F89"
+[palettes.signal_light]  # light appearance
+primary = "#4C566A"
+muted = "#646464"
+rule = "#A6AFBC"
+accent = "#336F78"

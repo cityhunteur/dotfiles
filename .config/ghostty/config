@@ -1,6 +1,9 @@
-# Installed Nord Light / Nord, copied with Meister / Continuum Glacier 2.0.0
+# Installed Nord Light / Nord, copied with Meister / Continuum — Signal 3.0.0
 # cursor and selection roles merged in (see themes/). Palettes are unchanged.
-theme = light:nord-light-glacier,dark:nord-glacier
+# Follow the desktop appearance using the installed Nord palettes.
+theme = light:signal-light,dark:signal-dark
+# Keep input readable when a running TUI retains its previous background.
+minimum-contrast = 4.5
 title = ""
 macos-titlebar-style = hidden
 confirm-close-surface = false

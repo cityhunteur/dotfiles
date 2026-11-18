@@ -1,7 +1,7 @@
-# nord-glacier: the installed Ghostty "nord" theme with Meister / Continuum
-# Glacier 2.0.0 continuum-dark cursor and selection roles merged in.
+# signal-dark: the installed Ghostty "nord" theme with Meister / Continuum
+# Signal 3.0.0 dark cursor and selection roles merged in.
 # Copied from: Ghostty 1.4.0, themes/nord. Every palette entry is unchanged.
-# Merged values come from terminal/ghostty/meister-continuum-dark.
+# Signal cursor roles and independent Nord selection references derive from the skills canonical tokens.
 
 palette = 0=#3b4252
 palette = 1=#bf616a
@@ -22,8 +22,8 @@ palette = 15=#eceff4
 background = #2e3440
 foreground = #d8dee9
 
-# Glacier roles: signalAccent cursor, signalTint selection with fgLink ink
-cursor-color = #88C0D0
-cursor-text = #202631
-selection-background = #304958
-selection-foreground = #88C0D0
+# Signal cursor uses contrasting black/white; native selection keeps its paired roles.
+cursor-color = #f2f2f2
+cursor-text = #111111
+selection-background = #43546A
+selection-foreground = #ECEFF4
