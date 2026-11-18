@@ -1,31 +1,29 @@
 # Signal terminal presentation
 
-Meister / Continuum — Signal 3.0.0 terminal configuration, adopted on
-18 November 2026. The requested appearance is a dark blue/black canvas,
-neutral text, unfilled status tabs and three coloured markers. Nord syntax colours remain separate.
+Ghostty, tmux, Starship, Helix and K9s follow macOS appearance. The dark
+canvas is Nord blue-black and the light canvas is Nord blue-grey. Focus and
+action markers use ice cyan in dark mode and deep teal in light mode.
 
-The baseline is `cityhunteur/skills/system/signal/tokens/meister.tokens.json`,
-SHA-256 `5770814bc531bdbb2950549aba1ac3b5ecdb54cbe65824c0be8ebe8b2d08885c`.
-The host canvas, marker colours and unfilled selection are explicit user
-choices. The supplied Signal bundle is retained without modifications.
+## Appearance switching
 
-## Active configuration
-
-| Surface | Canonical source |
+| Tool | Source and behaviour |
 | --- | --- |
-| Ghostty | `.config/ghostty/config`, `.config/ghostty/themes/signal-dark`, `signal-light` |
-| tmux status and pane styles | `.tmux.conf`, `.config/tmux/signal-dark.conf`, `signal-light.conf` |
-| Starship | `.config/starship.toml`, palettes `signal_dark` and `signal_light` |
-| Shell startup | `.zshrc`, `.config/zsh/signal.zsh` |
-| Session/window symbols | `.config/zsh/tmux-symbols.zsh` |
+| Ghostty | `.config/ghostty/config` selects `signal-light` and `signal-dark` using Ghostty’s native system theme pair. |
+| tmux | `.tmux.conf` sources the matching profile on startup, attach and terminal theme reports. |
+| Starship | The appearance listener selects the active palette in the installed `starship.toml`. The shell picks it up when it renders the next prompt. |
+| Helix | The `signal` theme inherits `nord_light` or `nord`. The listener updates the theme file and requests Helix’s native config reload. |
+| K9s | The `signal` skin uses the installed Nord status and YAML colours. K9s watches the active skin file with `ui.reactive` enabled. |
 
-Ghostty selects `signal-dark`; tmux also stays dark regardless of desktop/client
-appearance. The light variants remain available and tested. The Signal startup
-hook selects the main Starship configuration and retires the previous edition's
-selector when sourced in an existing shell. Already-running shells may retain a
-previous generated-cache path; its contents are refreshed to the Signal config
-until those shells load the renamed startup hook. This is a transition artifact,
-not another active theme.
+The per-user LaunchAgent listens for macOS appearance notifications. It applies
+the current appearance at login and writes changed files atomically. Its
+configuration sources are in this dotfiles checkout. Starship’s installed
+config is a regular file so changing its palette leaves the repository template
+clean and preserves local prompt settings.
+
+`init.sh` installs the five tool configurations. To rebuild just the appearance
+listener and enable the K9s skin, run `scripts/install-terminal-appearance`.
+The listener runs as `com.cityhunteur.terminal-appearance`. K9s loads the
+global skin unless an explicit context skin or `K9S_SKIN` overrides it.
 
 | Role | Light | Dark |
 | --- | --- | --- |
@@ -56,7 +54,8 @@ window's mouse range. `#D` is another alias to avoid in colour literals.
 
 Tmux colours are therefore lowercase. The original click bindings are retained.
 The failure was reproduced with a full status line on the live server's tmux 3.8
-version, then corrected. `tests/test_tmux_status.py` checks expanded styles,
+version, then corrected. `tests/test_tmux_status.py` checks attached-client
+theme reports, expanded styles,
 marker colours, absence of selected-tab fills and real SGR mouse clicks
 through an isolated client in both profiles. It passes with tmux 3.8 and 3.6a:
 
@@ -66,12 +65,11 @@ python3 -m unittest discover -s tests -v
 
 ## Installation and checks
 
-Existing source symlinks and shared directories are preserved. Ghostty's live
-main config is under `~/Library/Application Support/com.mitchellh.ghostty/`;
-its custom themes are under `~/.config/ghostty/themes/`. Main configuration and
-both Signal themes pass Ghostty 1.4.0 validation. Reload occurs after validation.
-Starship 1.24.2 renders both palettes; the edited shell files pass syntax checks.
-The running tmux status uses the installed Signal profile.
+Ghostty’s active configuration lives under
+`~/Library/Application Support/com.mitchellh.ghostty/`. The custom themes
+live under `~/.config/ghostty/themes/`. Check the resolved canvas with
+`ghostty +show-config` and compare it with
+`tmux display-message -p '#{client_theme} #{@canvas} #{@accent}'`.
 
 Backups and operation manifests are under `~/.local/share/terminal-backups/`:
 
@@ -79,6 +77,7 @@ Backups and operation manifests are under `~/.local/share/terminal-backups/`:
 - `tmux-status-click-20261118T143943Z/`: click investigation.
 - `blue-black-20261118T145623Z/`: fixed-dark appearance change.
 - `signal-names-monochrome-*`: Signal naming and monochrome action change.
+- `system-appearance-*`: the five-tool system appearance rollout.
 
 A rename initially left Ghostty's physical live config pointing at its former
 filename. The live reference was corrected to `signal-dark`; the main config

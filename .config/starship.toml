@@ -5,7 +5,7 @@ add_newline = false
 command_timeout = 1000
 scan_timeout = 50
 
-# The fixed dark terminal uses signal_dark. Both Signal palettes use a custom prompt accent.
+# The appearance helper selects one of these palettes in the installed copy.
 #   rule      rails and fill (┌ └ ─): nordControlBoundary on the shared Nord canvas
 #   muted     readable metadata: brackets, markers, tool versions
 #   primary   values: directory, branch, failure marker

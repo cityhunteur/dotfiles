@@ -77,6 +77,22 @@ class StatusClickTests(unittest.TestCase):
     def stop_server(self):
         subprocess.run([TMUX, "-S", str(self.socket), "kill-server"], capture_output=True, check=False)
 
+    def test_attached_client_changes_profile_on_theme_reports(self):
+        text = (ROOT / ".tmux.conf").read_text()
+        for line in text.splitlines():
+            if line.startswith(("set-hook -g client-light-theme ", "set-hook -g client-dark-theme ")):
+                for mode in ("light", "dark"):
+                    name = f".config/tmux/signal-{mode}.conf"
+                    line = line.replace("~/" + name, str(ROOT / name))
+                self.run_tmux(*shlex.split(line))
+        for mode, report, accent in (("light", 2, "#17646f"), ("dark", 1, "#88d8de"),
+                                     ("light", 2, "#17646f")):
+            os.write(self.master, f"\x1b[?997;{report}n".encode())
+            self.drain(0.25)
+            client = self.run_tmux("list-clients", "-F", "#{client_theme}")
+            self.assertEqual(client, mode)
+            self.assertEqual(self.run_tmux("show-options", "-gv", "@accent"), accent)
+
     def test_both_profiles_preserve_styles_and_clickable_window_ranges(self):
         for mode in ("light", "dark"):
             with self.subTest(mode=mode):

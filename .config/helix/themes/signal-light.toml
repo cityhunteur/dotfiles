@@ -1,0 +1,14 @@
+inherits = "nord_light"
+
+"ui.background" = { bg = "#e5e9f0" }
+"ui.cursor" = { fg = "#e5e9f0", bg = "#171717" }
+"ui.cursor.primary" = { fg = "#e5e9f0", bg = "#171717" }
+"ui.text" = "#171717"
+"ui.statusline" = { fg = "#171717", bg = "#e5e9f0" }
+"ui.statusline.inactive" = { fg = "#646464", bg = "#e5e9f0" }
+"ui.statusline.normal" = { fg = "#17646f", bg = "#e5e9f0", modifiers = ["bold"] }
+"ui.statusline.insert" = { fg = "#17646f", bg = "#e5e9f0", modifiers = ["bold"] }
+"ui.statusline.select" = { fg = "#17646f", bg = "#e5e9f0", modifiers = ["bold"] }
+"ui.selection" = { fg = "#2e3440", bg = "#aebed1" }
+"ui.selection.primary" = { fg = "#2e3440", bg = "#aebed1" }
+"ui.menu.selected" = { fg = "#17646f", bg = "#e5e9f0", modifiers = ["bold"] }

@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+"""Install the per-user macOS theme listener and enable K9s' native skin watcher."""
+import datetime
+import json
+import os
+import plistlib
+import re
+import shutil
+import subprocess
+import tempfile
+from pathlib import Path
+
+home = Path.home()
+source = Path(__file__).resolve().parents[1]
+config = Path(os.environ.get("XDG_CONFIG_HOME", home / ".config"))
+k9s = Path(os.environ.get("K9S_CONFIG_DIR", Path(os.environ.get(
+    "XDG_CONFIG_HOME", home / "Library/Application Support")) / "k9s"))
+label = "com.cityhunteur.terminal-appearance"
+binary = home / ".local/libexec" / label
+agent = home / "Library/LaunchAgents" / f"{label}.plist"
+domain = f"gui/{os.getuid()}"
+stamp = datetime.datetime.now(datetime.UTC).strftime("%Y%m%dT%H%M%S%fZ")
+backup = home / ".local/share/terminal-backups" / f"system-appearance-{stamp}"
+
+
+def save(path, data, mode=0o644):
+    if path.is_file() and path.read_bytes() == data and not path.is_symlink():
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if path.exists() or path.is_symlink():
+        copy = backup / path.relative_to(path.anchor)
+        copy.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(path, copy, follow_symlinks=False)
+        mode = path.stat().st_mode & 0o777
+    with tempfile.NamedTemporaryFile(dir=path.parent, delete=False) as stream:
+        stream.write(data)
+    os.chmod(stream.name, mode)
+    os.replace(stream.name, path)
+
+
+def yaml_data(text):
+    return json.loads(subprocess.check_output(
+        ["/usr/bin/ruby", "-ryaml", "-rjson", "-e", "puts JSON.generate(YAML.safe_load(STDIN.read) || {})"],
+        input=text, text=True))
+
+
+def enable_skin(text):
+    expected = yaml_data(text)
+    ui = expected.setdefault("k9s", {}).setdefault("ui", {})
+    ui.update(skin="signal", reactive=True)
+    if yaml_data(text) == expected:
+        return text
+    # Edit only the two scalar values in K9s' block YAML, retaining comments and other settings.
+    result = text if not text or text.endswith("\n") else text + "\n"
+    if not re.search(r"(?m)^k9s:[ \t]*(?:#.*)?$", result):
+        result += "k9s:\n"
+    root = re.search(r"(?m)^k9s:[^\n]*\n((?:[ \t][^\n]*\n|\n|#[^\n]*\n)*)", result)
+    body = root[1]
+    section = re.search(r"(?m)^([ ]+)ui:[^\n]*\n", body)
+    if not section:
+        child = re.search(r"(?m)^( +)\w", body)
+        indent = child[1] if child else "  "
+        body = f"{indent}ui:\n" + body
+        section = re.match(r"^( +)ui:\n", body)
+    children = body[section.end():]
+    first = re.match(r"( +)\w", children)
+    indent = first[1] if first and len(first[1]) > len(section[1]) else section[1] + "  "
+    block = re.match(rf"(?:{indent}[^\n]*\n|[ ]*#[^\n]*\n|\n)*", children)[0]
+    edited = block
+    for key, value in (("skin", "signal"), ("reactive", "true")):
+        edited, count = re.subn(rf"(?m)^({indent}{key}:[ \t]*)[^\s#]+", rf"\g<1>{value}", edited, count=1)
+        if not count:
+            edited = f"{indent}{key}: {value}\n" + edited
+    body = body[:section.end()] + edited + children[len(block):]
+    result = result[:root.start(1)] + body + result[root.end(1):]
+    if yaml_data(result) != expected:
+        raise ValueError("Could not preserve the existing K9s configuration")
+    return result
+
+
+def main():
+    settings = k9s / "config.yaml"
+    skin_config = enable_skin(settings.read_text() if settings.exists() else "")
+    starship = config / "starship.toml"
+    template = source / ".config/starship.toml"
+    # Detach the repository link before writing a machine-specific selector.
+    if not starship.exists() or (starship.is_symlink() and starship.samefile(template)):
+        save(starship, template.read_bytes())
+    with tempfile.TemporaryDirectory() as directory:
+        built = Path(directory) / label
+        subprocess.run(["/usr/bin/swiftc", "-swift-version", "6", "-O",
+                        source / "scripts/terminal-appearance.swift", "-o", built], check=True)
+        save(binary, built.read_bytes(), 0o755)
+    args = [str(binary), "watch", str(source / ".config"), str(config), str(k9s)]
+    subprocess.run([args[0], "system", *args[2:]], check=True)
+    save(settings, skin_config.encode(), 0o600)
+    save(agent, plistlib.dumps({"Label": label, "ProgramArguments": args, "RunAtLoad": True,
+                                "KeepAlive": True, "ProcessType": "Background"}))
+    if subprocess.run(["launchctl", "print", f"{domain}/{label}"], capture_output=True, check=False).returncode == 0:
+        subprocess.run(["launchctl", "bootout", f"{domain}/{label}"], check=True)
+    subprocess.run(["launchctl", "bootstrap", domain, agent], check=True)
+    print(f"Installed {label}" + (f"; backup {backup}" if backup.exists() else ""))
+
+
+if __name__ == "__main__":
+    main()
