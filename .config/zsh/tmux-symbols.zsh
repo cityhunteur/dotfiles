@@ -1,9 +1,9 @@
 # Semantic monochrome symbols for tmux session and window names.
 #
 # One vocabulary drives both the session prefix (tmux_session_symbol) and the
-# window renaming prompt (tmux_symbols). Every glyph is single-width and is
-# covered by PragmataPro Mono Liga 0.829, so nothing falls back to another
-# font. No emoji (Meister / Continuum Glacier: restrained markers only).
+# window renaming prompt (tmux_symbols). These are glyph candidates for the
+# installed PragmataPro Mono Liga; native coverage and width require checking.
+# Signal uses restrained markers with readable names, never emoji presentation.
 #
 # Glyphs used by the starship prompt for tools are kept out of this list
 # unless the meaning is the same (⎈ = Kubernetes in both places).
@@ -14,7 +14,7 @@ typeset -ga TMUX_SYMBOL_VOCABULARY=(
 	"◫ workspace  (workspace|work|ws)"
 	"⌁ code       (hacker|hack*|code*|dev*|lab|sandbox)"
 	"◍ review     (review*|qa|audit*)"
-	"☰ infra      (stack|infra*|ops|platform*)"
+	"≡ infra      (stack|infra*|ops|platform*)"
 	"⌘ tools      (tools|tooling|utils|bin)"
 	"¶ docs       (doc*|notes|wiki|writing|blog*)"
 	"◎ app        (app|app-*|ui|web|frontend*)"
@@ -56,7 +56,7 @@ tmux_symbols() {
 	local requested_session="${1:-ocos}"
 	local session="$requested_session"
 	local base_session_name="$requested_session"
-	local -a known_session_prefixes=("${TMUX_SYMBOL_DEFAULT}-")
+	local -a known_session_prefixes=("${TMUX_SYMBOL_DEFAULT}-" "☰-")
 	local entry known_prefix candidate_session
 	for entry in "${TMUX_SYMBOL_VOCABULARY[@]}"; do
 		known_session_prefixes+=("${entry%% *}-")

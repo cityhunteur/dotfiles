@@ -1,4 +1,4 @@
-# Meister / Continuum Glacier 2.0.0: keep the starship palette in step with
+# Meister / Continuum — Signal 3.0.0: keep the starship palette in step with
 # the macOS appearance (which Ghostty's light/dark theme follows).
 #
 # ~/.config/starship.toml selects palette "glacier_dark". In light mode we
