@@ -1,4 +1,4 @@
-# nord-light-glacier: the installed Ghostty "Nord Light" theme with Meister / Continuum
+# signal-light: the installed Ghostty "Nord Light" theme with Meister / Continuum
 # Signal 3.0.0 light cursor and selection roles merged in.
 # Copied from: Ghostty 1.4.0, themes/Nord Light. Every palette entry is unchanged.
 # Signal cursor roles and independent Nord selection references derive from the skills canonical tokens.
@@ -22,8 +22,8 @@ palette = 15=#eceff4
 background = #e5e9f0
 foreground = #414858
 
-# Signal focus cursor; native selection retains its stronger Nord-adjacent pair.
-cursor-color = #2457E6
-cursor-text = #FFFFFF
+# Signal cursor uses contrasting black/white; native selection keeps its paired roles.
+cursor-color = #171717
+cursor-text = #ffffff
 selection-background = #AEBED1
 selection-foreground = #2E3440

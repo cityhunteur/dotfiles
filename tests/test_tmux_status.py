@@ -2,6 +2,7 @@
 import fcntl
 import os
 import pty
+import re
 import select
 import shutil
 import struct
@@ -77,8 +78,13 @@ class StatusClickTests(unittest.TestCase):
     def test_both_profiles_preserve_styles_and_clickable_window_ranges(self):
         for mode in ("light", "dark"):
             with self.subTest(mode=mode):
-                self.run_tmux("source-file", str(ROOT / f".config/tmux/glacier-{mode}.conf"))
+                self.run_tmux("source-file", str(ROOT / f".config/tmux/signal-{mode}.conf"))
                 self.run_tmux("select-window", "-t", "test:0")
+                canvas = self.run_tmux("show-options", "-gv", "@canvas")
+                action = self.run_tmux("show-options", "-gv", "@accent")
+                self.assertEqual(action, "#171717" if mode == "light" else "#f2f2f2")
+                selected = self.run_tmux("show-options", "-gv", "window-status-current-style")
+                self.assertEqual(re.search(r"(?:^|,)bg=([^,]+)", selected)[1], canvas)
                 for window in ("test:0", "test:1"):
                     for option in ("window-status-style", "window-status-current-style"):
                         raw = self.run_tmux("show-options", "-gv", option)

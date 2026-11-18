@@ -359,7 +359,7 @@ alias codex="$HOME/.bun/bin/codex"
 # -----------------------------------------------------------------------------
 # Initialize starship AFTER all other shell integrations (Ghostty, atuin, etc.)
 # Signal palette for the prompt (must precede starship init)
-[[ -r ~/.config/zsh/glacier.zsh ]] && source ~/.config/zsh/glacier.zsh
+[[ -r ~/.config/zsh/signal.zsh ]] && source ~/.config/zsh/signal.zsh
 _evalcache starship init zsh
 
 # =============================================================================

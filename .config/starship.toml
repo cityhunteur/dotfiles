@@ -6,15 +6,15 @@ command_timeout = 1000
 scan_timeout = 50
 
 # Colours derive from the Meister / Continuum — Signal 3.0.0 canonical tokens.
-# Both legacy palette IDs use Signal dark roles so existing shell hooks and
-# cached light-config paths remain readable on the fixed Nord dark canvas.
+# The fixed dark terminal uses signal_dark; signal_light retains black actions
+# for an explicitly selected light appearance.
 #   rule      rails and fill (┌ └ ─): nordControlBoundary on the shared Nord canvas
 #   muted     readable metadata: brackets, markers, tool versions
 #   primary   values: directory, branch, failure marker
-#   accent    the only colour: the prompt character ❯
-# Like the tmux status line, the prompt is neutral grey/black; states are told
+#   accent    contrasting black/white prompt character ❯
+# Like the tmux status line, the prompt is neutral; states are told
 # apart by their markers (! + ? ✘ …), never by hue.
-palette = "glacier_dark"
+palette = "signal_dark"
 
 format = """\
 [┌ ](rule)$directory $git_branch $git_state$git_status\
@@ -183,17 +183,17 @@ number_threshold = 1
 symbol_threshold = 1
 
 # =============================================================================
-# Signal palettes; legacy glacier_* IDs retain compatibility with shell hooks.
+# Signal palettes; action ink follows the appearance.
 # Keep these last: TOML tables swallow every key that follows them.
 # =============================================================================
-[palettes.glacier_dark]   # themes.continuum-dark
+[palettes.signal_dark]   # themes.continuum-dark
 primary = "#F2F2F2"
 muted = "#A0A0A0"
 rule = "#8A8A8A"
-accent = "#7AA2FF"
+accent = "#F2F2F2"
 
-[palettes.glacier_light]  # compatibility alias for running appearance hooks
-primary = "#F2F2F2"
-muted = "#A0A0A0"
-rule = "#8A8A8A"
-accent = "#7AA2FF"
+[palettes.signal_light]  # light appearance
+primary = "#171717"
+muted = "#646464"
+rule = "#858585"
+accent = "#171717"

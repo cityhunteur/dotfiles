@@ -1,7 +1,7 @@
 # Installed Nord Light / Nord, copied with Meister / Continuum — Signal 3.0.0
 # cursor and selection roles merged in (see themes/). Palettes are unchanged.
 # Fixed blue/black terminal appearance, independent of the desktop appearance.
-theme = nord-glacier
+theme = signal-dark
 title = ""
 macos-titlebar-style = hidden
 confirm-close-surface = false

@@ -1,115 +1,93 @@
 # Signal terminal presentation
 
-Meister / Continuum — Signal 3.0.0, adopted on 18 November 2026 for Ghostty,
-tmux, Starship and their existing zsh hook. The requested appearance is fixed
-dark blue/black: a Nord dark canvas, neutral text/chrome, and blue reserved for
-highlights, focus and actions. Installed Nord language colours remain separate.
+Meister / Continuum — Signal 3.0.0 terminal configuration, adopted on
+18 November 2026. The requested appearance is a dark blue/black canvas,
+neutral text, no filled status-tab highlighting, and contrasting action ink:
+white in dark mode and black in light mode. Nord syntax colours remain separate.
 
-The source is `cityhunteur/skills/system/signal/tokens/meister.tokens.json`,
-version 3.0.0, SHA-256
-`5770814bc531bdbb2950549aba1ac3b5ecdb54cbe65824c0be8ebe8b2d08885c`.
-Native selection references come from that repository's
-`system/nord-reference.json`. The supplier ZIP is preserved without changes in
-`cityhunteur/skills/system/signal/`.
+The baseline is `cityhunteur/skills/system/signal/tokens/meister.tokens.json`,
+SHA-256 `5770814bc531bdbb2950549aba1ac3b5ecdb54cbe65824c0be8ebe8b2d08885c`.
+The host canvas, monochrome actions and unfilled selection are explicit user
+choices. The supplied Signal bundle is retained without modifications.
 
-## Configuration ownership
+## Active configuration
 
-| Surface | Canonical files | Treatment |
-| --- | --- | --- |
-| Ghostty | `.config/ghostty/config`, `.config/ghostty/themes/nord{,-light}-glacier` | Existing Nord palettes/canvas; Signal cursor; stronger neutral native selection |
-| tmux | `.tmux.conf`, `.config/tmux/glacier-{light,dark}.conf` | Signal status canvas, selected ink/tint, blue current-window marker and focused-pane border |
-| Starship | `.config/starship.toml` | Neutral directory/git/tool metadata, blue prompt character, existing explicit state markers |
-| Appearance | `.config/ghostty/config`, `.tmux.conf`, `.config/zsh/glacier.zsh` | Fixed dark Ghostty/tmux; both legacy prompt IDs resolve to dark roles for already-running shells |
-| Symbols | `.config/zsh/tmux-symbols.zsh` | Existing meanings and matching rules; operations uses `≡`; old `☰-` prefixes remain recognised |
+| Surface | Canonical source |
+| --- | --- |
+| Ghostty | `.config/ghostty/config`, `.config/ghostty/themes/signal-dark`, `signal-light` |
+| tmux status and pane styles | `.tmux.conf`, `.config/tmux/signal-dark.conf`, `signal-light.conf` |
+| Starship | `.config/starship.toml`, palettes `signal_dark` and `signal_light` |
+| Shell startup | `.zshrc`, `.config/zsh/signal.zsh` |
+| Session/window symbols | `.config/zsh/tmux-symbols.zsh` |
 
-The `glacier_*` palette IDs, filenames, cached path and hook function names are
-compatibility identifiers. Their active colours derive from Signal. Both
-Starship IDs now map to the dark palette so already-running OS appearance hooks
-and cached config paths remain readable. tmux no longer changes palette with
-client/desktop appearance. The light tmux profile is retained and tested.
-The old handoff document is historical, not the active colour policy.
+Ghostty selects `signal-dark`; tmux also stays dark regardless of desktop/client
+appearance. The light variants remain available and tested. The Signal startup
+hook selects the main Starship configuration and retires the previous edition's
+selector when sourced in an existing shell. Already-running shells may retain a
+previous generated-cache path; its contents are refreshed to the Signal config
+until those shells load the renamed startup hook. This is a transition artifact,
+not another active theme.
 
 | Role | Light | Dark |
 | --- | --- | --- |
-| Status canvas | `#FAFAFA` | `#2E3440` (matches Nord terminal) |
-| Primary ink | `#171717` | `#F2F2F2` |
+| Terminal/status canvas | `#E5E9F0` | `#2E3440` |
+| Primary text/action ink | `#171717` | `#F2F2F2` |
 | Metadata | `#646464` | `#A0A0A0` |
-| Focus/action | `#2457E6` | `#7AA2FF` |
-| Selected status fill/ink | `#EAF0FF` / `#171717` | `#1B2230` / `#F2F2F2` |
+| Selected status fill | Same as canvas | Same as canvas |
 | Boundary over Nord | `#858585` | `#8A8A8A` |
-| Native text selection fill/ink | `#AEBED1` / `#2E3440` | `#43546A` / `#ECEFF4` |
+| Native text-selection fill/ink | `#AEBED1` / `#2E3440` | `#43546A` / `#ECEFF4` |
 
-The active tmux status bar matches the Nord blue/black canvas. Its subtle
-`#1B2230` selected-tab fill is an explicit user override. Neutral labels and a
-small blue current-window marker retain readable selection. The shell prompt
-also sits on Nord, so its rails use `nordControlBoundary`. Copy-mode and Ghostty native
-selection use the independent neutral pair, which stays distinct on Nord.
-The stored Nord ANSI slots and source foreground/background mappings are
-unchanged. Font size, features, cell geometry, keys, plugins, prompt modules,
-timeouts and language detectors are preserved. The selected appearance is dark.
-The configured Nord dark theme is selected without changing its ANSI slots.
-The installed font remains PragmataPro Mono Liga at the configured size.
-Glyph comments identify candidates without claiming native font verification.
+The active window retains its `▸` marker and contrasting label. Cursor, prompt,
+focused-pane border and pane labels use the same mode-aware neutral action ink.
+Native text selection retains a readable paired treatment for copying text.
 
-## Installation and verification
+The stored Nord ANSI slots and source foreground/background mappings are intact.
+Font size, features, cell geometry, keys, plugins, prompt modules, timeouts and
+language detectors are preserved. PragmataPro Mono Liga remains configured at
+the user's existing size. Glyph candidates do not claim native font validation.
 
-The existing home-directory symlinks and hardlinks are preserved. Ghostty's live
-main file is `~/Library/Application Support/com.mitchellh.ghostty/config`; its
-custom themes are under `~/.config/ghostty/themes/`. Starship's physical home copy
-is kept in sync. Backups of all ten source/config pairs and the original generated
-prompt cache are under
-`~/.local/share/terminal-backups/signal-3.0.0-20261118T142504Z/`.
+## Mouse-click regression
 
-Initially validated with the tmux 3.6a CLI; the live server is 3.8.
-Ghostty is 1.4.0 and Starship is 1.24.2. Native checks:
+Uppercase tmux hex literals caused a formatting regression. During
+`#{E:window-status-style}` expansion, `#F` inside `#FAFAFA` becomes window flags,
+turning the background into `AFAFA` or `*AFAFA`. Invalid styles lose the inactive
+window's mouse range. `#D` is another alias to avoid in colour literals.
 
-- Ghostty's actual validator accepts the live configuration and both theme files.
-  Comparisons against the backup confirm all 16 ANSI slots, source foreground/
-  background and non-colour main settings are unchanged.
-- Both tmux profiles load into an isolated server, with the expected status,
-  selected-window and accent values. The main file passes `source-file -n`.
-  Applied only the profiles and changed status formats to the live server,
-  preserving its sessions, panes, plugins and keys. The requested fixed dark
-  profile is now applied regardless of client appearance.
-- Eight real Starship prompts render without warnings across both palettes,
-  40/160 columns, success/failure and insert/vi-command modes. TOML comparisons
-  confirm all non-palette module settings are unchanged. The appearance hook
-  regenerated its compatibility cache using dark palette values.
-- The edited zsh files pass syntax checks. A stubbed tmux/Codex test confirms
-  that `☰-infra` normalises to `≡-infra` while retaining its readable name;
-  the test does not rename real sessions or launch Codex.
-- Ghostty's native `reload_config` action returned success.
-
-Physical display quality, actual glyph fallback/shaping and mixed light/dark
-clients sharing a tmux server remain unverified. The fixed dark profile is global; per-client palettes are
-not introduced.
-No application restart or session termination was needed.
-
-## Mouse-click regression and correction
-
-Uppercase tmux hex literals introduced a real formatting regression. In
-`#{E:window-status-style}`, tmux expands `#F` inside `#FAFAFA` as window flags,
-turning the background into `AFAFA` or `*AFAFA`. Invalid styles then lose the
-inactive window's mouse range. The same applies to `#D` pane aliases.
-
-The tmux profiles use lowercase hex literals; RGB values are identical. Native
-click bindings remain unchanged. A full-status-line PTY reproduction on tmux 3.8
-fails before this correction and switches among inactive tabs afterwards.
-`tests/test_tmux_status.py` checks literal format expansion for active/inactive
-windows and sends real SGR mouse presses/releases through an isolated tmux client
-in both palette profiles. Run it with:
+Tmux colours are therefore lowercase. The original click bindings are retained.
+The failure was reproduced with a full status line on the live server's tmux 3.8
+version, then corrected. `tests/test_tmux_status.py` checks expanded styles,
+monochrome action ink, absence of selected-tab fills and real SGR mouse clicks
+through an isolated client in both profiles. It passes with tmux 3.8 and 3.6a:
 
 ```sh
 python3 -m unittest discover -s tests -v
 ```
 
-The computer-use safety policy blocked native Ghostty click inspection. These
-checks exercise the actual tmux mouse protocol without controlling the live GUI.
-Separate backups for the click investigation and fixed-dark preference are under
-`~/.local/share/terminal-backups/tmux-status-click-20261118T143943Z/` and
-`~/.local/share/terminal-backups/blue-black-20261118T145623Z/`.
+## Installation and checks
 
-The configuration follows the official [Ghostty theme model](https://ghostty.org/docs/features/theme),
-[Starship palette configuration](https://starship.rs/config/#prompt) and
-[tmux style and hook interfaces](https://man.openbsd.org/tmux.1). Installed CLI
-validators and the actual running tmux version provide the adoption evidence.
+Existing source symlinks and shared directories are preserved. Ghostty's live
+main config is under `~/Library/Application Support/com.mitchellh.ghostty/`;
+its custom themes are under `~/.config/ghostty/themes/`. Main configuration and
+both Signal themes pass Ghostty 1.4.0 validation. Reload occurs after validation.
+Starship 1.24.2 renders both palettes; the edited shell files pass syntax checks.
+The running tmux status uses the installed Signal profile.
+
+Backups and operation manifests are under `~/.local/share/terminal-backups/`:
+
+- `signal-3.0.0-20261118T142504Z/`: original source/config pairs.
+- `tmux-status-click-20261118T143943Z/`: click investigation.
+- `blue-black-20261118T145623Z/`: fixed-dark appearance change.
+- `signal-names-monochrome-*`: Signal naming and monochrome action change.
+
+A rename initially left Ghostty's physical live config pointing at its former
+filename. The live reference was corrected to `signal-dark`; the main config
+and both themes subsequently validated and reloaded successfully.
+
+The computer-use safety policy blocked native Ghostty click inspection. The
+mouse checks exercise actual tmux clients through PTYs without controlling the
+live GUI. Physical font fallback/shaping and display quality remain unverified.
+No user sessions or processes were restarted.
+
+References: [Ghostty theme configuration](https://ghostty.org/docs/features/theme),
+[Starship palettes](https://starship.rs/config/#prompt), and
+[tmux styles and mouse ranges](https://man.openbsd.org/tmux.1).
