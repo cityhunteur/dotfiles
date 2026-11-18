@@ -1,4 +1,4 @@
-// macOS clients with file-based themes: Starship, Helix and K9s.
+// macOS clients with file-based themes: Starship, Helix, K9s and Codex CLI.
 import AppKit
 import Darwin
 import Foundation
@@ -67,6 +67,15 @@ let k9s = URL(fileURLWithPath: args[3], isDirectory: true)
     let theme = try Data(contentsOf: source.appendingPathComponent("helix/themes/signal-\(mode).toml"))
     if try install(theme, at: config.appendingPathComponent("helix/themes/signal.toml")), ["watch", "system"].contains(args[0]) {
         reloadEditors()
+    }
+
+    if config.standardizedFileURL.path == userConfig.standardizedFileURL.path {
+        let codex = Process()
+        codex.executableURL = URL(fileURLWithPath: "/usr/bin/python3")
+        codex.arguments = [source.deletingLastPathComponent().appendingPathComponent("scripts/set-codex-appearance").path, mode]
+        try codex.run()
+        codex.waitUntilExit()
+        if codex.terminationStatus != 0 { NSLog("Could not save Codex CLI appearance") }
     }
 }
 
