@@ -46,6 +46,13 @@ The light canvas is Nord Snow Storm. Helix inherits the Nord Light syntax
 assignments with local colour overrides for the gutter, comments, strings,
 constants and diagnostics. K9s uses forest for additions, ochre for pending
 resources and muted red for errors. Ghostty retains its installed Nord ANSI slots.
+
+Codex chooses its syntax theme from the terminal background when `tui.theme`
+is unset in `~/.codex/config.toml`. Resume the conversation in a fresh Codex
+process after removing a pinned theme. For output marked dim (SGR 2), Ghostty’s
+light profile uses `faint-opacity = 0.9` so commit hashes and command output
+stay readable on Snow Storm.
+
 Font size, features, cell geometry, keys, plugins, prompt modules, timeouts and
 language detectors are preserved. PragmataPro Mono Liga remains configured at
 the user's existing size. Glyph candidates do not claim native font validation.

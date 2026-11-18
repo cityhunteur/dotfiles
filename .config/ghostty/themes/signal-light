@@ -21,6 +21,8 @@ palette = 14=#82afae
 palette = 15=#eceff4
 background = #eceff4
 foreground = #414858
+# Keep dim command output legible on the Snow Storm canvas.
+faint-opacity = 0.9
 
 # Signal cursor uses contrasting black/white; native selection keeps its paired roles.
 cursor-color = #171717
