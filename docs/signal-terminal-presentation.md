@@ -53,6 +53,10 @@ process after removing a pinned theme. For output marked dim (SGR 2), Ghostty’
 light profile uses `faint-opacity = 0.9` so commit hashes and command output
 stay readable on Snow Storm.
 
+A running Codex session can keep its command bar background after macOS
+switches appearance. Ghostty's shared `minimum-contrast = 4.5` lets it render
+low-contrast text in black or white against the actual cell background.
+
 Font size, features, cell geometry, keys, plugins, prompt modules, timeouts and
 language detectors are preserved. PragmataPro Mono Liga remains configured at
 the user's existing size. Glyph candidates do not claim native font validation.
