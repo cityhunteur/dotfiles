@@ -1,4 +1,5 @@
 """Exercise the installed-file contract without changing macOS appearance."""
+import os
 import runpy
 import shutil
 import subprocess
@@ -13,6 +14,17 @@ ROOT = Path(__file__).resolve().parents[1]
 
 @unittest.skipUnless(sys.platform == "darwin" and shutil.which("swiftc"), "uses macOS appearance APIs")
 class AppearanceTests(unittest.TestCase):
+    @unittest.skipUnless(shutil.which("codex") or (Path.home() / ".bun/bin/codex").is_file(), "uses Codex CLI")
+    def test_codex_updates_only_its_native_tui_theme(self):
+        with tempfile.TemporaryDirectory() as directory:
+            config = Path(directory) / "config.toml"
+            config.write_text("# Local preference\n[tui]\nanimations = false\n")
+            for mode, theme in (("dark", "nord"), ("light", "github"), ("dark", "nord")):
+                subprocess.run([sys.executable, ROOT / "scripts/set-codex-appearance", mode],
+                               env={**os.environ, "CODEX_HOME": directory}, check=True)
+                self.assertEqual(tomllib.loads(config.read_text()), {"tui": {"animations": False, "theme": theme}})
+                self.assertIn("# Local preference", config.read_text())
+
     def test_light_dark_light_preserves_prompt_and_switches_all_three_files(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

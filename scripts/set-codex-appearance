@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+"""Set the native Codex CLI syntax preference through its config service."""
+import json
+import os
+import shutil
+import signal
+import subprocess
+import sys
+from pathlib import Path
+
+mode, = sys.argv[1:]
+theme = {"dark": "nord", "light": "github"}[mode]
+home = Path.home()
+config = Path(os.environ.get("CODEX_HOME", home / ".codex")) / "config.toml"
+env = dict(os.environ)
+env["PATH"] = os.pathsep.join([env.get("PATH", ""), str(home / ".bun/bin"), "/opt/homebrew/bin", "/usr/local/bin"])
+binary = shutil.which("codex", path=env["PATH"])
+if not config.is_file() or binary is None:
+    sys.exit(0)
+with subprocess.Popen([binary, "app-server", "--listen", "stdio://"],
+                      stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, env=env) as server:
+    def request(number, method, params):
+        server.stdin.write(json.dumps({"id": number, "method": method, "params": params}) + "\n")
+        server.stdin.flush()
+        for line in server.stdout:
+            reply = json.loads(line)
+            if reply.get("id") == number:
+                if "error" in reply:
+                    raise RuntimeError(reply["error"])
+                return reply["result"]
+        raise RuntimeError("Codex configuration service closed before replying")
+
+    def timed_out(*_):
+        raise TimeoutError("Codex appearance update timed out")
+
+    signal.signal(signal.SIGALRM, timed_out)
+    signal.alarm(15)
+    try:
+        request(1, "initialize", {"clientInfo": {"name": "terminal_appearance", "version": "1"}})
+        server.stdin.write('{"method":"initialized"}\n')
+        current = request(2, "config/read", {"includeLayers": False})["config"]
+        if (current.get("tui") or {}).get("theme") != theme:
+            request(3, "config/value/write", {"keyPath": "tui.theme", "value": theme, "mergeStrategy": "replace",
+                                               "filePath": str(config)})
+    finally:
+        signal.alarm(0)
+        server.stdin.close()
+        server.terminate()
