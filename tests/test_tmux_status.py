@@ -4,6 +4,7 @@ import os
 import pty
 import re
 import select
+import shlex
 import shutil
 import struct
 import subprocess
@@ -36,11 +37,12 @@ class StatusClickTests(unittest.TestCase):
         for name, value in (
             ("mouse", "on"), ("status", "on"), ("status-position", "bottom"),
             ("status-left", ""), ("status-right", ""),
-            ("window-status-format", "#I:#W"),
-            ("window-status-current-format", "#I:#W*"),
-            ("window-status-separator", " "),
         ):
             self.run_tmux("set-option", "-g", name, value)
+        formats = ("window-status-format", "window-status-current-format", "window-status-separator")
+        for line in (ROOT / ".tmux.conf").read_text().splitlines():
+            if line.startswith(tuple(f"set -g {name} " for name in formats)):
+                self.run_tmux(*shlex.split(line))
         self.pid, self.master = pty.fork()
         if self.pid == 0:
             os.environ["TERM"] = "xterm-256color"
@@ -82,7 +84,10 @@ class StatusClickTests(unittest.TestCase):
                 self.run_tmux("select-window", "-t", "test:0")
                 canvas = self.run_tmux("show-options", "-gv", "@canvas")
                 action = self.run_tmux("show-options", "-gv", "@accent")
-                self.assertEqual(action, "#171717" if mode == "light" else "#f2f2f2")
+                self.assertEqual(action, "#17646f" if mode == "light" else "#88d8de")
+                primary = self.run_tmux("show-options", "-gv", "@primary")
+                label = self.run_tmux("display-message", "-p", "-t", "test:0", "#{E:window-status-current-format}")
+                self.assertEqual(label, f"#[fg={action}]▸ #[fg={primary}]0 first")
                 selected = self.run_tmux("show-options", "-gv", "window-status-current-style")
                 self.assertEqual(re.search(r"(?:^|,)bg=([^,]+)", selected)[1], canvas)
                 for window in ("test:0", "test:1"):
@@ -91,8 +96,8 @@ class StatusClickTests(unittest.TestCase):
                         expanded = self.run_tmux("display-message", "-p", "-t", window, "#{E:" + option + "}")
                         self.assertEqual(expanded, raw)
                 self.drain()
-                # With empty side segments, columns 12 and 3 hit the second/first labels.
-                self.click(12)
+                # With empty side segments, columns 18 and 3 hit the second/first labels.
+                self.click(18)
                 self.assertEqual(self.run_tmux("display-message", "-p", "-t", "test", "#{window_index}"), "1")
                 self.click(3)
                 self.assertEqual(self.run_tmux("display-message", "-p", "-t", "test", "#{window_index}"), "0")

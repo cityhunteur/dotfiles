@@ -2,12 +2,11 @@
 
 Meister / Continuum — Signal 3.0.0 terminal configuration, adopted on
 18 November 2026. The requested appearance is a dark blue/black canvas,
-neutral text, no filled status-tab highlighting, and contrasting action ink:
-white in dark mode and black in light mode. Nord syntax colours remain separate.
+neutral text, unfilled status tabs and three coloured markers. Nord syntax colours remain separate.
 
 The baseline is `cityhunteur/skills/system/signal/tokens/meister.tokens.json`,
 SHA-256 `5770814bc531bdbb2950549aba1ac3b5ecdb54cbe65824c0be8ebe8b2d08885c`.
-The host canvas, monochrome actions and unfilled selection are explicit user
+The host canvas, marker colours and unfilled selection are explicit user
 choices. The supplied Signal bundle is retained without modifications.
 
 ## Active configuration
@@ -31,14 +30,16 @@ not another active theme.
 | Role | Light | Dark |
 | --- | --- | --- |
 | Terminal/status canvas | `#E5E9F0` | `#2E3440` |
-| Primary text/action ink | `#171717` | `#F2F2F2` |
+| Primary text and cursor | `#171717` | `#F2F2F2` |
+| Prompt, active-window and prefix markers | `#17646F` | `#88D8DE` |
 | Metadata | `#646464` | `#A0A0A0` |
 | Selected status fill | Same as canvas | Same as canvas |
 | Boundary over Nord | `#858585` | `#8A8A8A` |
 | Native text-selection fill/ink | `#AEBED1` / `#2E3440` | `#43546A` / `#ECEFF4` |
 
-The active window retains its `▸` marker and contrasting label. Cursor, prompt,
-focused-pane border and pane labels use the same mode-aware neutral action ink.
+Ice cyan in dark mode and deep teal in light mode mark the Starship prompt,
+the active window’s `▸` and the tmux prefix `^A`. Window names, the cursor,
+the focused-pane border and pane labels use neutral ink.
 Native text selection retains a readable paired treatment for copying text.
 
 The stored Nord ANSI slots and source foreground/background mappings are intact.
@@ -56,7 +57,7 @@ window's mouse range. `#D` is another alias to avoid in colour literals.
 Tmux colours are therefore lowercase. The original click bindings are retained.
 The failure was reproduced with a full status line on the live server's tmux 3.8
 version, then corrected. `tests/test_tmux_status.py` checks expanded styles,
-monochrome action ink, absence of selected-tab fills and real SGR mouse clicks
+marker colours, absence of selected-tab fills and real SGR mouse clicks
 through an isolated client in both profiles. It passes with tmux 3.8 and 3.6a:
 
 ```sh

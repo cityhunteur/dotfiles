@@ -5,15 +5,11 @@ add_newline = false
 command_timeout = 1000
 scan_timeout = 50
 
-# Colours derive from the Meister / Continuum — Signal 3.0.0 canonical tokens.
-# The fixed dark terminal uses signal_dark; signal_light retains black actions
-# for an explicitly selected light appearance.
+# The fixed dark terminal uses signal_dark. Both Signal palettes use a custom prompt accent.
 #   rule      rails and fill (┌ └ ─): nordControlBoundary on the shared Nord canvas
 #   muted     readable metadata: brackets, markers, tool versions
 #   primary   values: directory, branch, failure marker
-#   accent    contrasting black/white prompt character ❯
-# Like the tmux status line, the prompt is neutral; states are told
-# apart by their markers (! + ? ✘ …), never by hue.
+#   accent    prompt character ❯ (ice cyan in dark mode, deep teal in light mode)
 palette = "signal_dark"
 
 format = """\
@@ -190,10 +186,10 @@ symbol_threshold = 1
 primary = "#F2F2F2"
 muted = "#A0A0A0"
 rule = "#8A8A8A"
-accent = "#F2F2F2"
+accent = "#88D8DE"
 
 [palettes.signal_light]  # light appearance
 primary = "#171717"
 muted = "#646464"
 rule = "#858585"
-accent = "#171717"
+accent = "#17646F"
