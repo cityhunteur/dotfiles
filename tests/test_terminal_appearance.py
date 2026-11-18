@@ -33,6 +33,30 @@ class AppearanceTests(unittest.TestCase):
                 ]:
                     self.assertEqual(installed.read_bytes(), (ROOT / ".config" / source).read_bytes())
 
+    def test_light_terminal_text_contrast(self):
+        config = ROOT / ".config"
+        ghostty = dict(line.split(" = ", 1) for line in
+                       (config / "ghostty/themes/signal-light").read_text().splitlines()
+                       if line and not line.startswith("#"))
+        helix = tomllib.loads((config / "helix/themes/signal-light.toml").read_text())
+        prompt = tomllib.loads((config / "starship.toml").read_text())["palettes"]["signal_light"]
+        yaml_data = runpy.run_path(str(ROOT / "scripts/install-terminal-appearance"))["yaml_data"]
+        skin = yaml_data((config / "k9s/skins/signal-light.yaml").read_text())["k9s"]
+        canvas = ghostty["background"].lower()
+        self.assertEqual(helix["ui.background"]["bg"].lower(), canvas)
+        self.assertEqual(skin["views"]["table"]["bgColor"].lower(), canvas)
+
+        def luminance(hex_colour):
+            srgb = bytes.fromhex(hex_colour.lstrip("#"))
+            channels = [value / 255 for value in srgb]
+            linear = [c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4 for c in channels]
+            return sum(a * b for a, b in zip(linear, (0.2126, 0.7152, 0.0722), strict=True))
+
+        for colour in (ghostty["foreground"], prompt["primary"], prompt["muted"], prompt["accent"],
+                       *helix["palette"].values(), *skin["frame"]["status"].values()):
+            with self.subTest(colour=colour):
+                self.assertGreaterEqual((luminance(canvas) + 0.05) / (luminance(colour) + 0.05), 4.5)
+
     def test_install_keeps_unrelated_k9s_settings_and_comments(self):
         enable = runpy.run_path(str(ROOT / "scripts/install-terminal-appearance"))["enable_skin"]
         settings = "k9s:\n  ui:\n    skin: nord-light # preferred\n  logger:\n    textWrap: true\n"

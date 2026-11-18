@@ -12,7 +12,7 @@ action markers use ice cyan in dark mode and muted teal in light mode.
 | tmux | `.tmux.conf` sources the matching profile on startup, attach and terminal theme reports. |
 | Starship | The appearance listener selects the active palette in the installed `starship.toml`. The shell picks it up when it renders the next prompt. |
 | Helix | The `signal` theme inherits `nord_light` or `nord`. The listener updates the theme file and requests Helix’s native config reload. |
-| K9s | The `signal` skin uses the installed Nord status and YAML colours. K9s watches the active skin file with `ui.reactive` enabled. |
+| K9s | The `signal` skin uses Nord-derived status colours tuned for each appearance. K9s watches the active skin file with `ui.reactive` enabled. |
 
 The per-user LaunchAgent listens for macOS appearance notifications. It applies
 the current appearance at login and writes changed files atomically. Its
@@ -27,10 +27,10 @@ global skin unless an explicit context skin or `K9S_SKIN` overrides it.
 
 | Role | Light | Dark |
 | --- | --- | --- |
-| Terminal/status canvas | `#E5E9F0` | `#2E3440` |
-| Terminal UI text and cursor | `#171717` | `#F2F2F2` |
+| Terminal/status canvas | `#ECEFF4` | `#2E3440` |
+| Terminal cursor | `#171717` | `#F2F2F2` |
 | Prompt, active-window and prefix markers | `#336F78` | `#88D8DE` |
-| Starship primary text | `#4C566A` | `#F2F2F2` |
+| Starship and tmux primary text | `#4C566A` | `#F2F2F2` |
 | Starship divider | `#A6AFBC` | `#8A8A8A` |
 | Metadata | `#646464` | `#A0A0A0` |
 | Selected status fill | Same as canvas | Same as canvas |
@@ -42,7 +42,10 @@ the active window’s `▸` and the tmux prefix `^A`. Window names, the cursor,
 the focused-pane border and pane labels use neutral ink.
 Native text selection retains a readable paired treatment for copying text.
 
-The stored Nord ANSI slots and source foreground/background mappings are intact.
+The light canvas is Nord Snow Storm. Helix inherits the Nord Light syntax
+assignments with local colour overrides for the gutter, comments, strings,
+constants and diagnostics. K9s uses forest for additions, ochre for pending
+resources and muted red for errors. Ghostty retains its installed Nord ANSI slots.
 Font size, features, cell geometry, keys, plugins, prompt modules, timeouts and
 language detectors are preserved. PragmataPro Mono Liga remains configured at
 the user's existing size. Glyph candidates do not claim native font validation.

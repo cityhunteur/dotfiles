@@ -1,14 +1,26 @@
 inherits = "nord_light"
 
-"ui.background" = { bg = "#e5e9f0" }
-"ui.cursor" = { fg = "#e5e9f0", bg = "#171717" }
-"ui.cursor.primary" = { fg = "#e5e9f0", bg = "#171717" }
-"ui.text" = "#171717"
-"ui.statusline" = { fg = "#171717", bg = "#e5e9f0" }
-"ui.statusline.inactive" = { fg = "#646464", bg = "#e5e9f0" }
-"ui.statusline.normal" = { fg = "#336f78", bg = "#e5e9f0", modifiers = ["bold"] }
-"ui.statusline.insert" = { fg = "#336f78", bg = "#e5e9f0", modifiers = ["bold"] }
-"ui.statusline.select" = { fg = "#336f78", bg = "#e5e9f0", modifiers = ["bold"] }
+"ui.background" = { bg = "#eceff4" }
+"ui.cursor" = { fg = "#eceff4", bg = "#171717" }
+"ui.cursor.match" = { fg = "#336f78", bg = "#eceff4", modifiers = ["bold", "underlined"] }
+"ui.cursor.primary" = { fg = "#eceff4", bg = "#171717" }
+"ui.text" = "#414858"
+"ui.statusline" = { fg = "#4c566a", bg = "#eceff4" }
+"ui.statusline.inactive" = { fg = "#646464", bg = "#eceff4" }
+"ui.statusline.normal" = { fg = "#336f78", bg = "#eceff4", modifiers = ["bold"] }
+"ui.statusline.insert" = { fg = "#336f78", bg = "#eceff4", modifiers = ["bold"] }
+"ui.statusline.select" = { fg = "#336f78", bg = "#eceff4", modifiers = ["bold"] }
 "ui.selection" = { fg = "#2e3440", bg = "#aebed1" }
 "ui.selection.primary" = { fg = "#2e3440", bg = "#aebed1" }
-"ui.menu.selected" = { fg = "#336f78", bg = "#e5e9f0", modifiers = ["bold"] }
+"ui.menu.selected" = { fg = "#336f78", bg = "#eceff4", modifiers = ["bold"] }
+
+# Preserve Nord Light's scope assignments and darken its foreground swatches locally.
+[palette]
+nord7 = "#566475"  # line numbers and comments
+nord8 = "#336f78"  # virtual text
+nord10 = "#456787" # types and namespaces
+nord11 = "#98505a" # deletions and errors
+nord12 = "#875538" # link text
+nord13 = "#7c551d" # changes and warnings
+nord14 = "#4f6d49" # strings and additions
+nord15 = "#785577" # constants
