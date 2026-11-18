@@ -53,9 +53,12 @@ process after removing a pinned theme. For output marked dim (SGR 2), Ghostty’
 light profile uses `faint-opacity = 0.9` so commit hashes and command output
 stay readable on Snow Storm.
 
-A running Codex session can keep its command bar background after macOS
-switches appearance. Ghostty's shared `minimum-contrast = 4.5` lets it render
-low-contrast text in black or white against the actual cell background.
+A running Codex session can keep its original command bar background after
+macOS switches appearance. On Ghostty clients, tmux maps the two Signal input
+fills used by Codex 0.170 (`#E2E5EA` and `#474C56`) to the terminal's default
+background. The prompt then shares the surrounding canvas in either mode.
+This mapping applies to any tmux cell with either exact background colour.
+Ghostty also uses `minimum-contrast = 4.5` for low-contrast text.
 
 Font size, features, cell geometry, keys, plugins, prompt modules, timeouts and
 language detectors are preserved. PragmataPro Mono Liga remains configured at

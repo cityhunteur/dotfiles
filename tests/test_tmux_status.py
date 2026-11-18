@@ -1,4 +1,5 @@
-"""Exercise real tmux format expansion and status clicks without touching live sessions."""
+"""Exercise tmux rendering and status clicks without touching live sessions."""
+import curses
 import fcntl
 import os
 import pty
@@ -92,6 +93,24 @@ class StatusClickTests(unittest.TestCase):
             client = self.run_tmux("list-clients", "-F", "#{client_theme}")
             self.assertEqual(client, mode)
             self.assertEqual(self.run_tmux("show-options", "-gv", "@accent"), accent)
+
+    def test_ghostty_codex_input_inherits_the_canvas(self):
+        config = (ROOT / ".tmux.conf").read_text().replace("\\\n", "")
+        rule = next(line for line in config.splitlines() if "xterm-ghostty:setrgbb=" in line)
+        args = shlex.split(rule)
+        self.run_tmux(*args)
+        capability = self.run_tmux("show-options", "-sv", args[2])
+        terminal, program = capability.split(":setrgbb=")
+        self.assertEqual(terminal, "xterm-ghostty")
+        curses.setupterm("xterm-256color")
+        program = program.replace(r"\E", "\x1b").encode()
+        for rgb in [(226, 229, 234), (71, 76, 86)]:
+            self.assertEqual(curses.tparm(program, *rgb), b"\x1b[49m")
+            for channel in range(3):
+                neighbour = list(rgb)
+                neighbour[channel] += 1
+                expected = b"\x1b[48;2;%d;%d;%dm" % tuple(neighbour)
+                self.assertEqual(curses.tparm(program, *neighbour), expected)
 
     def test_both_profiles_preserve_styles_and_clickable_window_ranges(self):
         for mode in ("light", "dark"):
