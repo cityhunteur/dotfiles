@@ -85,8 +85,8 @@ class StatusClickTests(unittest.TestCase):
                     name = f".config/tmux/signal-{mode}.conf"
                     line = line.replace("~/" + name, str(ROOT / name))
                 self.run_tmux(*shlex.split(line))
-        for mode, report, accent in (("light", 2, "#17646f"), ("dark", 1, "#88d8de"),
-                                     ("light", 2, "#17646f")):
+        for mode, report, accent in (("light", 2, "#336f78"), ("dark", 1, "#88d8de"),
+                                     ("light", 2, "#336f78")):
             os.write(self.master, f"\x1b[?997;{report}n".encode())
             self.drain(0.25)
             client = self.run_tmux("list-clients", "-F", "#{client_theme}")
@@ -100,7 +100,7 @@ class StatusClickTests(unittest.TestCase):
                 self.run_tmux("select-window", "-t", "test:0")
                 canvas = self.run_tmux("show-options", "-gv", "@canvas")
                 action = self.run_tmux("show-options", "-gv", "@accent")
-                self.assertEqual(action, "#17646f" if mode == "light" else "#88d8de")
+                self.assertEqual(action, "#336f78" if mode == "light" else "#88d8de")
                 primary = self.run_tmux("show-options", "-gv", "@primary")
                 label = self.run_tmux("display-message", "-p", "-t", "test:0", "#{E:window-status-current-format}")
                 self.assertEqual(label, f"#[fg={action}]▸ #[fg={primary}]0 first")

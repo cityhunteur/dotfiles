@@ -6,9 +6,9 @@ inherits = "nord_light"
 "ui.text" = "#171717"
 "ui.statusline" = { fg = "#171717", bg = "#e5e9f0" }
 "ui.statusline.inactive" = { fg = "#646464", bg = "#e5e9f0" }
-"ui.statusline.normal" = { fg = "#17646f", bg = "#e5e9f0", modifiers = ["bold"] }
-"ui.statusline.insert" = { fg = "#17646f", bg = "#e5e9f0", modifiers = ["bold"] }
-"ui.statusline.select" = { fg = "#17646f", bg = "#e5e9f0", modifiers = ["bold"] }
+"ui.statusline.normal" = { fg = "#336f78", bg = "#e5e9f0", modifiers = ["bold"] }
+"ui.statusline.insert" = { fg = "#336f78", bg = "#e5e9f0", modifiers = ["bold"] }
+"ui.statusline.select" = { fg = "#336f78", bg = "#e5e9f0", modifiers = ["bold"] }
 "ui.selection" = { fg = "#2e3440", bg = "#aebed1" }
 "ui.selection.primary" = { fg = "#2e3440", bg = "#aebed1" }
-"ui.menu.selected" = { fg = "#17646f", bg = "#e5e9f0", modifiers = ["bold"] }
+"ui.menu.selected" = { fg = "#336f78", bg = "#e5e9f0", modifiers = ["bold"] }

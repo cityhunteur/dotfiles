@@ -2,7 +2,7 @@
 
 Ghostty, tmux, Starship, Helix and K9s follow macOS appearance. The dark
 canvas is Nord blue-black and the light canvas is Nord blue-grey. Focus and
-action markers use ice cyan in dark mode and deep teal in light mode.
+action markers use ice cyan in dark mode and muted teal in light mode.
 
 ## Appearance switching
 
@@ -28,14 +28,16 @@ global skin unless an explicit context skin or `K9S_SKIN` overrides it.
 | Role | Light | Dark |
 | --- | --- | --- |
 | Terminal/status canvas | `#E5E9F0` | `#2E3440` |
-| Primary text and cursor | `#171717` | `#F2F2F2` |
-| Prompt, active-window and prefix markers | `#17646F` | `#88D8DE` |
+| Terminal UI text and cursor | `#171717` | `#F2F2F2` |
+| Prompt, active-window and prefix markers | `#336F78` | `#88D8DE` |
+| Starship primary text | `#4C566A` | `#F2F2F2` |
+| Starship divider | `#A6AFBC` | `#8A8A8A` |
 | Metadata | `#646464` | `#A0A0A0` |
 | Selected status fill | Same as canvas | Same as canvas |
 | Boundary over Nord | `#858585` | `#8A8A8A` |
 | Native text-selection fill/ink | `#AEBED1` / `#2E3440` | `#43546A` / `#ECEFF4` |
 
-Ice cyan in dark mode and deep teal in light mode mark the Starship prompt,
+Ice cyan in dark mode and muted teal in light mode mark the Starship prompt,
 the active window’s `▸` and the tmux prefix `^A`. Window names, the cursor,
 the focused-pane border and pane labels use neutral ink.
 Native text selection retains a readable paired treatment for copying text.

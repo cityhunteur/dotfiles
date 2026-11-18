@@ -7,7 +7,7 @@ k9s:
   prompt:
     fgColor: "#171717"
     bgColor: "#e5e9f0"
-    suggestColor: "#17646f"
+    suggestColor: "#336f78"
   info:
     fgColor: "#5E81AC"
     sectionColor: "#2E3440"
@@ -16,18 +16,18 @@ k9s:
     bgColor: "#E5E9F0"
     buttonFgColor: "#ECEFF4"
     buttonBgColor: "#5E81AC"
-    buttonFocusFgColor: "#17646f"
+    buttonFocusFgColor: "#336f78"
     buttonFocusBgColor: "#e5e9f0"
     labelFgColor: "#D08770"
     fieldFgColor: "#2E3440"
   frame:
     border:
       fgColor: "#D8DEE9"
-      focusColor: "#17646f"
+      focusColor: "#336f78"
     menu:
       fgColor: "#2E3440"
-      keyColor: "#17646f"
-      numKeyColor: "#17646f"
+      keyColor: "#336f78"
+      numKeyColor: "#336f78"
     crumbs:
       fgColor: "#ECEFF4"
       bgColor: "#5E81AC"
@@ -44,7 +44,7 @@ k9s:
     title:
       fgColor: "#2E3440"
       bgColor: "#E5E9F0"
-      highlightColor: "#17646f"
+      highlightColor: "#336f78"
       counterColor: "#81A1C1"
       filterColor: "#B48EAD"
   views:
@@ -59,12 +59,12 @@ k9s:
     table:
       fgColor: "#171717"
       bgColor: "#e5e9f0"
-      cursorFgColor: "#17646f"
+      cursorFgColor: "#336f78"
       cursorBgColor: "#e5e9f0"
       header:
         fgColor: "#646464"
         bgColor: "#e5e9f0"
-        sorterColor: "#17646f"
+        sorterColor: "#336f78"
     xray:
       fgColor: "#2E3440"
       bgColor: "#ECEFF4"

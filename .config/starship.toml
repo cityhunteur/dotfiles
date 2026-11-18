@@ -6,10 +6,10 @@ command_timeout = 1000
 scan_timeout = 50
 
 # The appearance helper selects one of these palettes in the installed copy.
-#   rule      rails and fill (┌ └ ─): nordControlBoundary on the shared Nord canvas
+#   rule      rails and fill (┌ └ ─): decorative lines on the shared Nord canvas
 #   muted     readable metadata: brackets, markers, tool versions
 #   primary   values: directory, branch, failure marker
-#   accent    prompt character ❯ (ice cyan in dark mode, deep teal in light mode)
+#   accent    prompt character ❯ (ice cyan in dark mode, muted teal in light mode)
 palette = "signal_dark"
 
 format = """\
@@ -189,7 +189,7 @@ rule = "#8A8A8A"
 accent = "#88D8DE"
 
 [palettes.signal_light]  # light appearance
-primary = "#171717"
+primary = "#4C566A"
 muted = "#646464"
-rule = "#858585"
-accent = "#17646F"
+rule = "#A6AFBC"
+accent = "#336F78"
