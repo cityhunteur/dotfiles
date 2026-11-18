@@ -6,3 +6,4 @@ package-lock.json
 .config/raycast/extensions/
 skill-eval/
 *.backup.*
+__pycache__/

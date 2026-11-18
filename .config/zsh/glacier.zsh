@@ -1,10 +1,6 @@
-# Meister / Continuum — Signal 3.0.0: keep the starship palette in step with
-# the macOS appearance (which Ghostty's light/dark theme follows).
-#
-# ~/.config/starship.toml selects palette "glacier_dark". In light mode we
-# point STARSHIP_CONFIG at a cached copy that selects "glacier_light". The
-# copy is rebuilt whenever starship.toml is newer. The appearance is read at
-# most every 5 seconds to keep `defaults` off the per-prompt hot path.
+# Signal uses a fixed dark terminal. Both legacy Starship palette IDs resolve
+# to dark roles; keep this cached selector compatible with already-running shells.
+# The desktop check changes the config path, not the terminal appearance.
 
 zmodload -F zsh/datetime p:EPOCHSECONDS
 autoload -Uz add-zsh-hook
