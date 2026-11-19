@@ -40,10 +40,7 @@ class StatusClickTests(unittest.TestCase):
             ("status-left", ""), ("status-right", ""),
         ):
             self.run_tmux("set-option", "-g", name, value)
-        formats = ("window-status-format", "window-status-current-format", "window-status-separator")
-        for line in (ROOT / ".tmux.conf").read_text().splitlines():
-            if line.startswith(tuple(f"set -g {name} " for name in formats)):
-                self.run_tmux(*shlex.split(line))
+        self.run_tmux("set-option", "-g", "window-status-separator", "")
         self.pid, self.master = pty.fork()
         if self.pid == 0:
             os.environ["TERM"] = "xterm-256color"
@@ -79,6 +76,7 @@ class StatusClickTests(unittest.TestCase):
         subprocess.run([TMUX, "-S", str(self.socket), "kill-server"], capture_output=True, check=False)
 
     def test_attached_client_changes_profile_on_theme_reports(self):
+        self.run_tmux("split-window", "-t", "test:0", "sleep", "60")
         text = (ROOT / ".tmux.conf").read_text()
         for line in text.splitlines():
             if line.startswith(("set-hook -g client-light-theme ", "set-hook -g client-dark-theme ")):
@@ -86,13 +84,26 @@ class StatusClickTests(unittest.TestCase):
                     name = f".config/tmux/signal-{mode}.conf"
                     line = line.replace("~/" + name, str(ROOT / name))
                 self.run_tmux(*shlex.split(line))
-        for mode, report, accent in (("light", 2, "#336f78"), ("dark", 1, "#88d8de"),
-                                     ("light", 2, "#336f78")):
+        for mode, report, accent in (("light", 2, "#646464"), ("dark", 1, "#88d8de"),
+                                     ("light", 2, "#646464")):
             os.write(self.master, f"\x1b[?997;{report}n".encode())
             self.drain(0.25)
             client = self.run_tmux("list-clients", "-F", "#{client_theme}")
             self.assertEqual(client, mode)
             self.assertEqual(self.run_tmux("show-options", "-gv", "@accent"), accent)
+            for pane in (0, 1):
+                self.run_tmux("select-pane", "-t", f"test:0.{pane}")
+                if mode == "light":
+                    for option in ("window-status-current-format", "window-status-format"):
+                        label = self.run_tmux("display-message", "-p", "-t", "test:0", f"|#{{E:{option}}}|")
+                        self.assertEqual(re.sub(r"#\[[^\]]*\]", "", label), f"|   0.{pane} first |")
+                        if option == "window-status-current-format":
+                            canvas = self.run_tmux("show-options", "-gv", "@canvas")
+                            muted = self.run_tmux("show-options", "-gv", "@muted")
+                            self.assertEqual(label, f"|  #[fg={canvas},bg={muted}] 0.{pane} first #[default]|")
+                else:
+                    label = self.run_tmux("display-message", "-p", "-t", "test:0", "#{E:window-status-current-format}")
+                    self.assertTrue(label.endswith("]0 first"), label)
 
     def test_ghostty_codex_input_inherits_the_canvas(self):
         config = (ROOT / ".tmux.conf").read_text().replace("\\\n", "")
@@ -113,28 +124,46 @@ class StatusClickTests(unittest.TestCase):
                 self.assertEqual(curses.tparm(program, *neighbour), expected)
 
     def test_both_profiles_preserve_styles_and_clickable_window_ranges(self):
+        config = (ROOT / ".tmux.conf").read_text().splitlines()
+        for line in config:
+            if line.startswith(("set -g status-left ", "set -g status-left-length ", "set -g prefix ")):
+                self.run_tmux(*shlex.split(line))
         for mode in ("light", "dark"):
             with self.subTest(mode=mode):
                 self.run_tmux("source-file", str(ROOT / f".config/tmux/signal-{mode}.conf"))
                 self.run_tmux("select-window", "-t", "test:0")
                 canvas = self.run_tmux("show-options", "-gv", "@canvas")
                 action = self.run_tmux("show-options", "-gv", "@accent")
-                self.assertEqual(action, "#336f78" if mode == "light" else "#88d8de")
+                self.assertEqual(action, "#646464" if mode == "light" else "#88d8de")
                 primary = self.run_tmux("show-options", "-gv", "@primary")
+                muted = self.run_tmux("show-options", "-gv", "@muted")
                 label = self.run_tmux("display-message", "-p", "-t", "test:0", "#{E:window-status-current-format}")
-                self.assertEqual(label, f"#[fg={action}]▸ #[fg={primary}]0 first")
-                selected = self.run_tmux("show-options", "-gv", "window-status-current-style")
-                self.assertEqual(re.search(r"(?:^|,)bg=([^,]+)", selected)[1], canvas)
+                if mode == "light":
+                    self.assertEqual(label, f"#[fg={canvas},bg={muted}] 0 first #[default]")
+                else:
+                    self.assertEqual(label, f"#[fg={action}]▸ #[fg={primary}]0 first")
+                selected = self.run_tmux("show-options", "-gv", "window-status-current-style").split(",")
+                name_colour = muted if mode == "light" else primary
+                self.assertCountEqual(selected, [f"bg={canvas}", f"fg={name_colour}", "noreverse"])
+                inactive = self.run_tmux("show-options", "-gv", "window-status-style")
+                self.assertEqual(re.search(r"(?:^|,)bg=([^,]+)", inactive)[1], canvas)
                 for window in ("test:0", "test:1"):
                     for option in ("window-status-style", "window-status-current-style"):
                         raw = self.run_tmux("show-options", "-gv", option)
                         expanded = self.run_tmux("display-message", "-p", "-t", window, "#{E:" + option + "}")
                         self.assertEqual(expanded, raw)
                 self.drain()
-                # With empty side segments, columns 18 and 3 hit the second/first labels.
-                self.click(18)
+                for key, suffix in ((None, "   "), (b"\x01", " ^A")):
+                    if key:
+                        os.write(self.master, key)
+                        self.drain()
+                    left = self.run_tmux("display-message", "-p", "|#{E:status-left}|")
+                    self.assertEqual(re.sub(r"#\[[^\]]*\]", "", left), f"|└ ⟪ test ⟫{suffix}|")
+                self.run_tmux("switch-client", "-T", "root")
+                # Both themes put the first number in column 17 with this session name.
+                self.click(28)
                 self.assertEqual(self.run_tmux("display-message", "-p", "-t", "test", "#{window_index}"), "1")
-                self.click(3)
+                self.click(17)
                 self.assertEqual(self.run_tmux("display-message", "-p", "-t", "test", "#{window_index}"), "0")
 
 

@@ -47,9 +47,11 @@ class AppearanceTests(unittest.TestCase):
 
     def test_light_terminal_text_contrast(self):
         config = ROOT / ".config"
-        ghostty = dict(line.split(" = ", 1) for line in
-                       (config / "ghostty/themes/signal-light").read_text().splitlines()
-                       if line and not line.startswith("#"))
+        settings = [line.split(" = ", 1) for line in
+                    (config / "ghostty/themes/signal-light").read_text().splitlines()
+                    if line and not line.startswith("#")]
+        ghostty = dict(settings)
+        ansi = dict(value.split("=", 1) for key, value in settings if key == "palette")
         helix = tomllib.loads((config / "helix/themes/signal-light.toml").read_text())
         prompt = tomllib.loads((config / "starship.toml").read_text())["palettes"]["signal_light"]
         yaml_data = runpy.run_path(str(ROOT / "scripts/install-terminal-appearance"))["yaml_data"]
@@ -64,8 +66,11 @@ class AppearanceTests(unittest.TestCase):
             linear = [c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4 for c in channels]
             return sum(a * b for a, b in zip(linear, (0.2126, 0.7152, 0.0722), strict=True))
 
+        self.assertEqual(prompt["accent"], prompt["muted"])
+        listing_colours = [ansi[str(slot)] for slot in range(1, 7)]
+        self.assertEqual(len(set(listing_colours)), 6)
         for colour in (ghostty["foreground"], prompt["primary"], prompt["muted"], prompt["accent"],
-                       *helix["palette"].values(), *skin["frame"]["status"].values()):
+                       *listing_colours, *helix["palette"].values(), *skin["frame"]["status"].values()):
             with self.subTest(colour=colour):
                 self.assertGreaterEqual((luminance(canvas) + 0.05) / (luminance(colour) + 0.05), 4.5)
 

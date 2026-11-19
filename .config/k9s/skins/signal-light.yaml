@@ -9,11 +9,11 @@ k9s:
     logoColorWarn: "#7c551d"
     logoColorError: "#98505a"
   prompt:
-    fgColor: "#414858"
+    fgColor: "#646464"
     bgColor: "#eceff4"
-    suggestColor: "#336f78"
+    suggestColor: "#646464"
     border:
-      command: "#336f78"
+      command: "#646464"
       default: "#858585"
   help:
     fgColor: "#414858"

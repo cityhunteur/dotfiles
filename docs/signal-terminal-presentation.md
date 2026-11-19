@@ -1,8 +1,8 @@
 # Signal terminal presentation
 
 Ghostty, tmux, Starship, Helix and K9s follow macOS appearance. The dark
-canvas is Nord blue-black and the light canvas is Nord blue-grey. Focus and
-action markers use ice cyan in dark mode and muted teal in light mode.
+canvas is Nord blue-black and the light canvas is Nord blue-grey. Light-mode
+prompt and status text use charcoal on the normal canvas.
 
 ## Appearance switching
 
@@ -29,23 +29,29 @@ global skin unless an explicit context skin or `K9S_SKIN` overrides it.
 | --- | --- | --- |
 | Terminal/status canvas | `#ECEFF4` | `#2E3440` |
 | Terminal cursor | `#171717` | `#F2F2F2` |
-| Prompt, active-window and prefix markers | `#336F78` | `#88D8DE` |
-| Starship and tmux primary text | `#4C566A` | `#F2F2F2` |
+| Starship prompt character | `#646464` on the canvas | `#88D8DE` on the canvas |
+| tmux prefix marker | `#646464` | `#88D8DE` |
+| Starship and tmux primary text | `#646464` | `#F2F2F2` |
 | Starship divider | `#A6AFBC` | `#8A8A8A` |
 | Metadata | `#646464` | `#A0A0A0` |
-| Selected status fill | Same as canvas | Same as canvas |
+| Active tmux tab fill | `#646464` | Same as canvas |
 | Boundary over Nord | `#858585` | `#8A8A8A` |
 | Native text-selection fill/ink | `#AEBED1` / `#2E3440` | `#43546A` / `#ECEFF4` |
 
-Ice cyan in dark mode and muted teal in light mode mark the Starship prompt,
-the active window’s `▸` and the tmux prefix `^A`. Window names, the cursor,
-the focused-pane border and pane labels use neutral ink.
-Native text selection retains a readable paired treatment for copying text.
+Dark mode marks the active tmux window with an ice-cyan `▸`. In light mode
+the active tmux tab (window number, focused pane index when split, and window
+name) uses light text on charcoal. The Starship arrow, directory, branch, tool
+versions and inactive window names use charcoal on the canvas, as do the Helix
+status line and K9s command prompt. Split windows include their focused pane
+index, for example `2.1` for window 2, pane 1. Native text selection retains a
+readable paired treatment for copying text.
 
 The light canvas is Nord Snow Storm. Helix inherits the Nord Light syntax
 assignments with local colour overrides for the gutter, comments, strings,
 constants and diagnostics. K9s uses forest for additions, ochre for pending
-resources and muted red for errors. Ghostty retains its installed Nord ANSI slots.
+resources and muted red for errors. Ghostty uses more saturated shades for
+standard ANSI colours 1–6 on the light canvas. In `ll`, directories appear
+blue, symlinks violet, executables green, Markdown ochre and broken links red.
 
 The appearance listener saves Codex CLI’s native `tui.theme` as `nord` in dark
 mode and `github` in light mode. Any CLI launch reads that setting, including
@@ -76,7 +82,7 @@ Tmux colours are therefore lowercase. The original click bindings are retained.
 The failure was reproduced with a full status line on the live server's tmux 3.8
 version, then corrected. `tests/test_tmux_status.py` checks attached-client
 theme reports, expanded styles,
-marker colours, absence of selected-tab fills and real SGR mouse clicks
+marker colours, active tab fills, focused pane indices and real SGR mouse clicks
 through an isolated client in both profiles. It passes with tmux 3.8 and 3.6a:
 
 ```sh

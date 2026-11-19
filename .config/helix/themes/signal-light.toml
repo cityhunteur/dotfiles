@@ -5,11 +5,11 @@ inherits = "nord_light"
 "ui.cursor.match" = { fg = "#336f78", bg = "#eceff4", modifiers = ["bold", "underlined"] }
 "ui.cursor.primary" = { fg = "#eceff4", bg = "#171717" }
 "ui.text" = "#414858"
-"ui.statusline" = { fg = "#4c566a", bg = "#eceff4" }
+"ui.statusline" = { fg = "#646464", bg = "#eceff4" }
 "ui.statusline.inactive" = { fg = "#646464", bg = "#eceff4" }
-"ui.statusline.normal" = { fg = "#336f78", bg = "#eceff4", modifiers = ["bold"] }
-"ui.statusline.insert" = { fg = "#336f78", bg = "#eceff4", modifiers = ["bold"] }
-"ui.statusline.select" = { fg = "#336f78", bg = "#eceff4", modifiers = ["bold"] }
+"ui.statusline.normal" = { fg = "#646464", bg = "#eceff4" }
+"ui.statusline.insert" = { fg = "#646464", bg = "#eceff4" }
+"ui.statusline.select" = { fg = "#646464", bg = "#eceff4" }
 "ui.selection" = { fg = "#2e3440", bg = "#aebed1" }
 "ui.selection.primary" = { fg = "#2e3440", bg = "#aebed1" }
 "ui.menu.selected" = { fg = "#336f78", bg = "#eceff4", modifiers = ["bold"] }

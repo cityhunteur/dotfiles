@@ -1,6 +1,4 @@
-# Installed Nord Light / Nord, copied with Meister / Continuum — Signal 3.0.0
-# cursor and selection roles merged in (see themes/). Palettes are unchanged.
-# Follow the desktop appearance using the installed Nord palettes.
+# Follow the desktop appearance using the Signal variants of Nord Light and Nord.
 theme = light:signal-light,dark:signal-dark
 # Keep input readable when a running TUI retains its previous background.
 minimum-contrast = 4.5

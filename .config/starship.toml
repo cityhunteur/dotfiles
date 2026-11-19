@@ -9,7 +9,7 @@ scan_timeout = 50
 #   rule      rails and fill (┌ └ ─): decorative lines on the shared Nord canvas
 #   muted     readable metadata: brackets, markers, tool versions
 #   primary   values: directory, branch, failure marker
-#   accent    prompt character ❯ (ice cyan in dark mode, muted teal in light mode)
+#   accent    prompt character colour
 palette = "signal_dark"
 
 format = """\
@@ -30,8 +30,7 @@ style = "primary bold"
 truncation_length = 1
 truncate_to_repo = true
 
-# Failure adds a ✘ marker and vi normal mode flips direction (❮); the
-# accent stays on the prompt character in every state.
+# Failure adds a ✘ marker and vi normal mode flips direction (❮).
 [character]
 success_symbol = "[❯](accent bold)"
 error_symbol = "[✘ ](primary bold)[❯](accent bold)"
@@ -189,7 +188,7 @@ rule = "#8A8A8A"
 accent = "#88D8DE"
 
 [palettes.signal_light]  # light appearance
-primary = "#4C566A"
+primary = "#646464"
 muted = "#646464"
 rule = "#A6AFBC"
-accent = "#336F78"
+accent = "#646464"

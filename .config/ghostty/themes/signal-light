@@ -1,15 +1,16 @@
 # signal-light: the installed Ghostty "Nord Light" theme with Meister / Continuum
 # Signal 3.0.0 light cursor and selection roles merged in.
-# Copied from: Ghostty 1.4.0, themes/Nord Light. Every palette entry is unchanged.
+# Based on Ghostty 1.4.0 Nord Light. Slots 1–6 use stronger hues so file
+# types stay distinct on the light canvas under Ghostty's contrast setting.
 # Signal cursor roles and independent Nord selection references derive from the skills canonical tokens.
 
 palette = 0=#3b4252
-palette = 1=#bf616a
-palette = 2=#96b17f
-palette = 3=#c5a565
-palette = 4=#81a1c1
-palette = 5=#b48ead
-palette = 6=#7bb3c3
+palette = 1=#ae2547
+palette = 2=#19613b
+palette = 3=#854900
+palette = 4=#1653a6
+palette = 5=#77349b
+palette = 6=#00626b
 palette = 7=#a5abb6
 palette = 8=#4c566a
 palette = 9=#bf616a

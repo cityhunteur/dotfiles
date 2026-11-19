@@ -53,7 +53,13 @@ setopt extended_history hist_expire_dups_first hist_ignore_dups \
 # Completion UX (previously inherited from oh-my-zsh lib/completion.zsh).
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' menu select
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+# ANSI colours follow the terminal theme when macOS changes appearance.
+if [[ -r ~/.dir_colors ]] && (( $+commands[gdircolors] )); then
+	eval "$(gdircolors -b ~/.dir_colors)"
+else
+	export LS_COLORS='di=34:ln=35:ex=32:or=31:mi=31:pi=33:so=36:bd=33:cd=33:su=31:sg=33:tw=34:ow=33:st=34:*.md=33'
+fi
+zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$HOME/.zsh/cache"
 zstyle ':completion:*:descriptions' format '%B%d%b'
@@ -115,9 +121,6 @@ bindkey -v
 
 # Completion system + bashcompinit are initialized once, cached, near the top.
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
-
-# Directory colors
-test -r ~/.dir_colors && eval "$(gdircolors ~/.dir_colors)"
 
 # -----------------------------------------------------------------------------
 # Aliases
@@ -371,10 +374,6 @@ alias gemini='NODE_OPTIONS="--disable-warning=DEP0040" gemini'
 export PATH="$HOME/.matter/bin:$PATH"
 
 
-# -----------------------------------------------------------------------------
-# Syntax highlighting (MUST be sourced last, after all widgets are defined)
-# -----------------------------------------------------------------------------
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # >>> grok installer >>>
 export PATH="$HOME/.grok/bin:$PATH"
@@ -385,3 +384,8 @@ autoload -Uz compinit && compinit -C
 
 # Added by Antigravity CLI installer
 export PATH="$HOME/.local/bin:$PATH"
+
+# -----------------------------------------------------------------------------
+# Syntax highlighting (MUST be sourced last, after all widgets are defined)
+# -----------------------------------------------------------------------------
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
