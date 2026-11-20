@@ -68,8 +68,10 @@ while lifting Nord slot `8` (`#919CAF`) and Aurora/Frost hues (`#DF8C94`,
 `#B5CE9F`, `#EBCB8B`, `#9CB8D6`, `#C9A6C3`, `#9AD0DE`/`#9FCAC9`) above `4.5:1`
 for clear dark-mode legibility. Ghostty keeps `font-thicken = true` with
 `font-synthetic-style` enabled for Regular-only `PragmataPro Mono Liga` so bold
-headings and italic notes remain crisp, with balanced `12x8` window padding and
-readable dim opacity (`0.85` light / `0.72` dark). Any CLI launch reads the
+headings and italic notes remain crisp, with `12` horizontal padding, `2,0`
+vertical padding (`window-padding-balance = equal` and `window-step-resize = true`
+so the tmux status bar hugs the bottom edge), and readable dim opacity (`0.85`
+light / `0.72` dark). Any CLI launch reads the
 synced theme, including `codex resume`; a running CLI can switch with `/theme`
 when idle.
 
