@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+"""Set Claude Code's native ANSI theme preference without disturbing other settings."""
+import json
+import os
+import sys
+import tempfile
+from pathlib import Path
+
+mode, = sys.argv[1:]
+theme = {"dark": "dark-ansi", "light": "light-ansi"}[mode]
+config_dir = Path(os.environ.get("CLAUDE_CONFIG_DIR", Path.home() / ".claude"))
+settings_path = config_dir / "settings.json"
+if not settings_path.is_file():
+    sys.exit(0)
+
+data = json.loads(settings_path.read_text(encoding="utf-8"))
+if data.get("theme") == theme:
+    sys.exit(0)
+
+data["theme"] = theme
+rendered = json.dumps(data, indent=2) + "\n"
+fd, tmp_name = tempfile.mkstemp(prefix=".settings-", dir=str(config_dir))
+try:
+    with os.fdopen(fd, "w", encoding="utf-8") as handle:
+        handle.write(rendered)
+    os.replace(tmp_name, settings_path)
+except Exception:
+    os.unlink(tmp_name)
+    raise

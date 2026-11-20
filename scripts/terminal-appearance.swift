@@ -70,12 +70,15 @@ let k9s = URL(fileURLWithPath: args[3], isDirectory: true)
     }
 
     if config.standardizedFileURL.path == userConfig.standardizedFileURL.path {
-        let codex = Process()
-        codex.executableURL = URL(fileURLWithPath: "/usr/bin/python3")
-        codex.arguments = [source.deletingLastPathComponent().appendingPathComponent("scripts/set-codex-appearance").path, mode]
-        try codex.run()
-        codex.waitUntilExit()
-        if codex.terminationStatus != 0 { NSLog("Could not save Codex CLI appearance") }
+        let scriptsDir = source.deletingLastPathComponent().appendingPathComponent("scripts")
+        for (script, label) in [("set-codex-appearance", "Codex CLI"), ("set-claude-appearance", "Claude Code")] {
+            let proc = Process()
+            proc.executableURL = URL(fileURLWithPath: "/usr/bin/python3")
+            proc.arguments = [scriptsDir.appendingPathComponent(script).path, mode]
+            try proc.run()
+            proc.waitUntilExit()
+            if proc.terminationStatus != 0 { NSLog("Could not save %@ appearance", label) }
+        }
     }
 }
 

@@ -1,4 +1,5 @@
 """Exercise the installed-file contract without changing macOS appearance."""
+import json
 import os
 import runpy
 import shutil
@@ -24,6 +25,15 @@ class AppearanceTests(unittest.TestCase):
                                env={**os.environ, "CODEX_HOME": directory}, check=True)
                 self.assertEqual(tomllib.loads(config.read_text()), {"tui": {"animations": False, "theme": theme}})
                 self.assertIn("# Local preference", config.read_text())
+
+    def test_claude_updates_only_its_native_ansi_theme(self):
+        with tempfile.TemporaryDirectory() as directory:
+            settings = Path(directory) / "settings.json"
+            settings.write_text(json.dumps({"model": "opus", "theme": "auto"}, indent=2) + "\n")
+            for mode, theme in (("dark", "dark-ansi"), ("light", "light-ansi"), ("dark", "dark-ansi")):
+                subprocess.run([sys.executable, ROOT / "scripts/set-claude-appearance", mode],
+                               env={**os.environ, "CLAUDE_CONFIG_DIR": directory}, check=True)
+                self.assertEqual(json.loads(settings.read_text()), {"model": "opus", "theme": theme})
 
     def test_light_dark_light_preserves_prompt_and_switches_all_three_files(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -68,11 +78,27 @@ class AppearanceTests(unittest.TestCase):
 
         self.assertEqual(prompt["accent"], prompt["muted"])
         listing_colours = [ansi[str(slot)] for slot in range(1, 7)]
+        bright_colours = [ansi[str(slot)] for slot in range(9, 15)]
         self.assertEqual(len(set(listing_colours)), 6)
-        for colour in (ghostty["foreground"], prompt["primary"], prompt["muted"], prompt["accent"],
-                       *listing_colours, *helix["palette"].values(), *skin["frame"]["status"].values()):
+        self.assertEqual(len(set(bright_colours)), 6)
+        for colour in (ghostty["foreground"], ghostty["bold-color"], ansi["7"],
+                       prompt["primary"], prompt["muted"], prompt["accent"],
+                       *listing_colours, *bright_colours, *helix["palette"].values(),
+                       *skin["frame"]["status"].values()):
             with self.subTest(colour=colour):
                 self.assertGreaterEqual((luminance(canvas) + 0.05) / (luminance(colour) + 0.05), 4.5)
+
+        dark_settings = [line.split(" = ", 1) for line in
+                         (config / "ghostty/themes/signal-dark").read_text().splitlines()
+                         if line and not line.startswith("#")]
+        dark_ghostty = dict(dark_settings)
+        dark_ansi = dict(value.split("=", 1) for key, value in dark_settings if key == "palette")
+        dark_canvas = dark_ghostty["background"].lower()
+        for colour in (dark_ghostty["foreground"], dark_ghostty["bold-color"], dark_ansi["8"],
+                       *(dark_ansi[str(slot)] for slot in range(1, 7)),
+                       *(dark_ansi[str(slot)] for slot in range(9, 15))):
+            with self.subTest(dark_colour=colour):
+                self.assertGreaterEqual((luminance(colour) + 0.05) / (luminance(dark_canvas) + 0.05), 4.5)
 
     def test_install_keeps_unrelated_k9s_settings_and_comments(self):
         enable = runpy.run_path(str(ROOT / "scripts/install-terminal-appearance"))["enable_skin"]

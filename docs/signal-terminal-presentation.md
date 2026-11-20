@@ -54,11 +54,24 @@ standard ANSI colours 1–6 on the light canvas. In `ll`, directories appear
 blue, symlinks violet, executables green, Markdown ochre and broken links red.
 
 The appearance listener saves Codex CLI’s native `tui.theme` as `nord` in dark
-mode and `github` in light mode. Any CLI launch reads that setting, including
-`codex resume`. A running CLI can select the new theme using `/theme` when idle.
-For output marked dim (SGR 2), Ghostty’s
-light profile uses `faint-opacity = 0.9` so commit hashes and command output
-stay readable on Snow Storm.
+mode and `github` in light mode, and saves Claude Code’s `theme` as `dark-ansi`
+in dark mode and `light-ansi` in light mode so ANSI TUIs (`agy`, Codex and
+Claude Code) share Ghostty’s Nord Light and Nord palettes. `signal-light` uses Nord Polar Night `nord1` (`#3B4252`, `Lc +83.7`) for body
+text, deep Polar Night (`#232832`, `Lc +92.0`) for `bold-color`, `nord3`
+(`#4C566A`, `Lc +76.0`) for muted slot `7`, and APCA-calibrated Nord hue angles
+for slots `1` to `6` (`#9C2C37`, `#406024`, `#9A4B26`, `#275895`, `#8D317C`,
+`#1B5E72`) on `#ECEFF4`; slot `11` (`SGR 1;33` bold tool verbs such as `Ran`
+and `Edited` in `agy`) uses crisp Nord Polar Night `nord0` (`#2E3440`) so tool
+summaries stay monochrome while status dots keep colour. `signal-dark` keeps `#2E3440` with `nord4`
+body (`#D8DEE9`, `Lc -80.3`) and `nord6` `bold-color` (`#ECEFF4`, `Lc -91.2`),
+while lifting Nord slot `8` (`#919CAF`) and Aurora/Frost hues (`#DF8C94`,
+`#B5CE9F`, `#EBCB8B`, `#9CB8D6`, `#C9A6C3`, `#9AD0DE`/`#9FCAC9`) above `4.5:1`
+for clear dark-mode legibility. Ghostty keeps `font-thicken = true` with
+`font-synthetic-style` enabled for Regular-only `PragmataPro Mono Liga` so bold
+headings and italic notes remain crisp, with balanced `12x8` window padding and
+readable dim opacity (`0.85` light / `0.72` dark). Any CLI launch reads the
+synced theme, including `codex resume`; a running CLI can switch with `/theme`
+when idle.
 
 A running Codex session can keep its original command bar background after
 macOS switches appearance. On Ghostty clients, tmux maps the two Signal input
