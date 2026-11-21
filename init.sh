@@ -75,8 +75,6 @@ fi
 # -----------------------------------------------------------------------------
 log "Adding taps..."
 brew tap 1password/tap 2>/dev/null || true
-brew tap derailed/k9s 2>/dev/null || true
-brew tap hashicorp/tap 2>/dev/null || true
 brew tap oven-sh/bun 2>/dev/null || true
 
 # -----------------------------------------------------------------------------
@@ -94,8 +92,8 @@ FORMULAS=(
     # Editor
     helix
     # Kubernetes & Cloud
-    kubernetes-cli kubectx kind helm kustomize
-    terraform tflint terraform-docs
+    kubernetes-cli kubectx kind helm kustomize k9s
+    terraform terraform-ls tflint terraform-docs
     # Docker
     docker docker-compose dive
 )
@@ -103,8 +101,6 @@ FORMULAS=(
 # Tapped formulas (need full path)
 TAPPED_FORMULAS=(
     "oven-sh/bun/bun"
-    "derailed/k9s/k9s"
-    "hashicorp/tap/terraform-ls"
 )
 
 for formula in "${FORMULAS[@]}"; do
