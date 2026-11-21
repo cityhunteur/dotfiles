@@ -1,21 +1,21 @@
 # signal-dark: APCA-lifted Nord with Meister / Continuum Signal cursor and
 # selection roles. Preserves official Nord hue angles on #2E3440 while lifting
-# dim comments and Aurora/Frost slots above Ghostty's minimum-contrast=4.5.
+# dim comments and Aurora/Frost slots to WCAG AAA (7:1) or better.
 
 palette = 0=#3b4252
-palette = 1=#df8c94
+palette = 1=#ebb5bb
 palette = 2=#b5ce9f
 palette = 3=#ebcb8b
-palette = 4=#9cb8d6
-palette = 5=#c9a6c3
+palette = 4=#afc5de
+palette = 5=#d6bbd1
 palette = 6=#9ad0de
 palette = 7=#e5e9f0
-palette = 8=#919caf
-palette = 9=#df8c94
+palette = 8=#bdc3cf
+palette = 9=#ebb5bb
 palette = 10=#b5ce9f
 palette = 11=#ebcb8b
-palette = 12=#9cb8d6
-palette = 13=#c9a6c3
+palette = 12=#afc5de
+palette = 13=#d6bbd1
 palette = 14=#9fcac9
 palette = 15=#eceff4
 background = #2e3440
@@ -28,4 +28,4 @@ faint-opacity = 0.72
 cursor-color = #f2f2f2
 cursor-text = #111111
 selection-background = #43546A
-selection-foreground = #ECEFF4
+selection-foreground = #FFFFFF

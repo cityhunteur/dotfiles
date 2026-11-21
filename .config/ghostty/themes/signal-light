@@ -3,24 +3,24 @@
 # chromatic separation from Polar Night body text (#3b4252) on #ECEFF4 Snow Storm.
 
 palette = 0=#2e3440
-palette = 1=#9c2c37
-palette = 2=#406024
-palette = 3=#9a4b26
-palette = 4=#275895
-palette = 5=#8d317c
-palette = 6=#1b5e72
-palette = 7=#4c566a
-palette = 8=#4c566a
-palette = 9=#9c2c37
-palette = 10=#406024
+palette = 1=#912933
+palette = 2=#3a5721
+palette = 3=#7e3d1f
+palette = 4=#245088
+palette = 5=#822d73
+palette = 6=#195668
+palette = 7=#465062
+palette = 8=#465062
+palette = 9=#912933
+palette = 10=#3a5721
 palette = 11=#2e3440
-palette = 12=#275895
-palette = 13=#8d317c
-palette = 14=#1b5e72
+palette = 12=#245088
+palette = 13=#822d73
+palette = 14=#195668
 palette = 15=#eceff4
 background = #eceff4
 foreground = #3b4252
-bold-color = #232832
+bold-color = #3b4252
 # Readable recessed dim text (5.86:1 on #ECEFF4 with #3b4252 foreground).
 faint-opacity = 0.85
 
@@ -28,4 +28,4 @@ faint-opacity = 0.85
 cursor-color = #171717
 cursor-text = #ffffff
 selection-background = #AEBED1
-selection-foreground = #2E3440
+selection-foreground = #2A2F3A

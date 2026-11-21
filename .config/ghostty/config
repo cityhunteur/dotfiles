@@ -14,8 +14,8 @@ unfocused-split-opacity = 0.65
 font-family = ""
 font-family = "PragmataPro Mono Liga"
 font-size = 16
-# Synthesize bold/italic because only PragmataProMonoLiga-Regular.ttf is installed.
-font-synthetic-style = bold,italic,bold-italic
+# Only PragmataProMonoLiga-Regular.ttf is installed; synthesize italics but not bold, which renders too heavy with font-thicken.
+font-synthetic-style = no-bold,italic,bold-italic
 font-thicken = true
 font-feature = "calt"
 font-feature = "lima"
