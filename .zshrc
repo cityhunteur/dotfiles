@@ -385,6 +385,9 @@ autoload -Uz compinit && compinit -C
 # Added by Antigravity CLI installer
 export PATH="$HOME/.local/bin:$PATH"
 
+# LM Studio CLI (lms)
+export PATH="$PATH:$HOME/.lmstudio/bin"
+
 # -----------------------------------------------------------------------------
 # Syntax highlighting (MUST be sourced last, after all widgets are defined)
 # -----------------------------------------------------------------------------
