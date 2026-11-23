@@ -6,12 +6,12 @@
     // - "light": Use the theme indicated by the "light" field
     // - "dark": Use the theme indicated by the "dark" field
     "theme": {
-        "mode": "light",
-        "light": "Nord Light",
+        "mode": "system",
+        "light": "GitHub Light",
         "dark": "Nord Dark",
     },
     "icon_theme": {
-        "mode": "light",
+        "mode": "system",
         "light": "Zed (Default)",
         "dark": "Zed (Default)",
     },
